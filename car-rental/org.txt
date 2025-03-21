@@ -1,0 +1,3373 @@
+# Projet optimisé : Site de location de voitures avec React + Vite
+
+## Structure des dossiers optimisée
+```
+car-rental-app/
+├── public/
+│   ├── images/
+│   │   └── cars/ (images des voitures)
+│   └── favicon.ico
+├── src/
+│   ├── assets/
+│   │   └── logo.svg
+│   ├── components/
+│   │   ├── Header/
+│   │   ├── CarList/
+│   │   ├── CarCard/
+│   │   ├── FilterBar/
+│   │   ├── SearchBar/
+│   │   └── Footer/
+│   ├── pages/
+│   │   ├── Home/
+│   │   ├── CarDetails/C:\Users\aimen\car-rental\src\pages\CarDetails\carDetails.css/ // C:\Users\aimen\car-rental\src\pages\CarDetails\CarDetails.jsx
+│   │   └── Checkout/
+│   ├── data/
+│   │   └── cars.js
+│   ├── hooks/
+│   │   └── useWindowSize.js
+│   ├── context/
+│   │   └── CarContext.jsx
+│   ├── App.jsx
+│   ├── main.jsx
+│   └── index.css
+├── .gitignore
+├── package.json
+├── vite.config.js
+└── README.md
+```
+
+## Configuration du projet et dépendances
+
+```bash
+# Créer un nouveau projet
+npm create vite@latest car-rental-app -- --template react
+
+# Accéder au répertoire du projet
+cd car-rental-app
+
+# Installer les dépendances
+npm install react-router-dom
+npm install tailwindcss postcss autoprefixer
+npm install framer-motion
+npm install react-icons
+npm install @headlessui/react
+
+# Configurer Tailwind
+npx tailwindcss init -p
+```
+
+## Composants corrigés
+
+### Header Component
+//C:\Users\aimen\car-rental\src\components\Header\Header.jsx
+import React, { useState } from 'react'; 
+import { Link } from 'react-router-dom'; 
+import { FaSearch, FaUserCircle, FaBars, FaTimes, FaShoppingCart } from 'react-icons/fa'; 
+import { useCart } from '../../context/CartContext'; 
+import './header.css'; 
+import logo from '../../assets/logo.svg'; 
+// We'll use the FaShoppingCart icon instead of an image
+
+const Header = () => { 
+  const [isMenuOpen, setIsMenuOpen] = useState(false); 
+  const { cartItems } = useCart();  
+ 
+  return ( 
+    <header className="header"> 
+      <div className="logo-container"> 
+        <Link to="/"> 
+          <img src={logo} alt="AutoRent" className="logo" /> 
+        </Link> 
+      </div> 
+       
+      <button  
+        className="mobile-menu-button" 
+        onClick={() => setIsMenuOpen(!isMenuOpen)} 
+      > 
+        {isMenuOpen ? <FaTimes /> : <FaBars />} 
+      </button> 
+       
+      <nav className={`navigation ${isMenuOpen ? 'show' : ''}`}> 
+        <Link to="/vehicules">Véhicules</Link> 
+        <Link to="/offres">Offres spéciales</Link> 
+        <Link to="/contact">Contact</Link> 
+        <Link to="/login" className="nav-button">Se connecter</Link> 
+        <Link to="/signup" className="nav-button signup">S'inscrire</Link> 
+ 
+        {/* Using FaShoppingCart icon instead of image */} 
+        <Link to="/cart" className="cart-icon"> 
+          <FaShoppingCart className="cart-img" />
+          {cartItems.length > 0 && <span className="cart-count">{cartItems.length}</span>} 
+        </Link> 
+      </nav> 
+    </header> 
+  ); 
+}; 
+ 
+export default Header;
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/* src/components/Header/Header.css */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background-color: #ffffff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  
+  .logo-container {
+    display: flex;
+    align-items: center;
+  }
+  
+  .logo {
+    height: 2.5rem;
+    width: auto;
+  }
+  
+  .navigation {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+  
+  .navigation a {
+    color: #333;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+  }
+  
+  .navigation a:hover {
+    color: #0062cc;
+  }
+  
+
+  
+  .search-icon, .user-icon {
+    font-size: 1.25rem;
+    color: #333;
+    transition: color 0.3s ease;
+  }
+  
+  .search-icon:hover, .user-icon:hover {
+    color: #0062cc;
+  }
+  
+  .mobile-menu-button {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #333;
+  }
+  
+  @media (max-width: 768px) {
+    .mobile-menu-button {
+      display: block;
+    }
+    
+    .navigation {
+      position: fixed;
+      top: 4rem;
+      left: 0;
+      right: 0;
+      background-color: white;
+      flex-direction: column;
+      padding: 1.5rem;
+      gap: 1.5rem;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transform: translateY(-100%);
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+    
+    .navigation.show {
+      transform: translateY(0);
+      opacity: 1;
+      visibility: visible;
+    }
+    
+
+  }
+  .nav-button {
+    background-color: transparent;
+    color: var(--primary-color);
+    padding: 8px 12px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+  }
+  
+  .nav-button.signup {
+    background-color: var(--primary-color);
+    color: white;
+  }
+  
+  .nav-button:hover {
+    background-color: var(--primary-color);
+    color: white;
+  }
+
+
+  .cart-icon {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-left: 20px;
+  }
+  
+  .cart-img {
+    width: 30px; /* 🔹 Ajuste la taille de l’image */
+    height: 30px;
+  }
+  
+  .cart-icon:hover .cart-img {
+    filter: brightness(1.2); /* 🔥 Effet au survol */
+  }
+  
+  .cart-count {
+    position: absolute;
+    top: -5px;
+    right: -10px;
+    background-color: red;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 3px 6px;
+    border-radius: 50%;
+  }
+  
+  
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//src/pages/Home/Home.jsx
+import React, { useState } from 'react';
+import Header from '../../components/Header/Header';
+import SearchBar from '../../components/SearchBar/SearchBar';
+import CarList from '../../components/CarList/CarList';
+import Footer from '../../components/Footer/Footer'; // Importation du Footer
+import { carsData } from '../../data/cars';
+import './home.css';
+
+const Home = () => {
+  const [filteredCars, setFilteredCars] = useState(carsData);
+
+  const handleSearch = (query) => {
+    if (query.trim() === '') {
+      setFilteredCars(carsData);
+    } else {
+      const filtered = carsData.filter(car => 
+        car.name.toLowerCase().includes(query.toLowerCase()) ||
+        car.specs.toLowerCase().includes(query.toLowerCase())
+      );
+      setFilteredCars(filtered);
+    }
+  };
+
+  return (
+    <div className="home-page">
+      <Header />
+      <main className="main-content">
+        <SearchBar onSearch={handleSearch} />
+        <CarList cars={filteredCars} />
+      </main>
+      
+      <Footer /> {/* Ajout du Footer ici */}
+      
+    </div>
+    
+  );
+};
+
+export default Home;
+
+////////////////////////////////////////////////////////
+/* src/pages/Home/Home.css */
+:root {
+  --primary-color: #00b0ff;
+  --secondary-color: #f0f9ff;
+  --text-color: #333;
+  --light-gray: #eee;
+  --white: #fff;
+  --border-radius: 8px;
+}
+
+.home-page {
+  min-height: 100vh;
+  background-color: var(--secondary-color);
+}
+
+.main-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Style pour les filtres simplifiés */
+.simple-filter-container {
+  background-color: var(--white);
+  border-radius: var(--border-radius);
+  padding: 15px;
+  margin-bottom: 25px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.category-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.category-button {
+  background-color: var(--light-gray);
+  color: #444;
+  padding: 6px 15px;
+  border-radius: 16px;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.category-button:hover, .category-button.active {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+/* Style pour la liste de voitures */
+.car-list-container {
+  padding: 20px 0;
+}
+
+.car-list-title {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: var(--text-color);
+}
+
+.car-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 20px;
+}
+
+/* Style pour les cartes de voitures */
+.car-card {
+  background-color: var(--white);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  cursor: pointer;
+}
+
+.car-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.car-card.selected {
+  border: 2px solid var(--primary-color);
+}
+
+.check-icon {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: var(--primary-color);
+  color: white;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+
+.car-image {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+}
+
+.car-details {
+  padding: 15px;
+}
+
+.car-name {
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+.car-specs {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+.car-price {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.price {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.price-period {
+  color: var(--primary-color);
+  font-size: 14px;
+}
+
+/* Responsive design */
+@media (max-width: 992px) {
+  .car-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .car-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .car-list-title {
+    font-size: 20px;
+    margin-bottom: 15px;
+  }
+  
+  .category-filters {
+    overflow-x: auto;
+    padding-bottom: 10px;
+    flex-wrap: nowrap;
+  }
+  
+  .category-button {
+    white-space: nowrap;
+  }
+}
+////////////////////////////////////////////////////////
+// src/components/SearchBar/SearchBar.jsx
+import React, { useState } from 'react';
+import { FaCalendarAlt, FaMapMarkerAlt, FaSearch } from 'react-icons/fa';
+import './searchBar.css';
+
+const SearchBar = ({ onSearch }) => {
+  const [location, setLocation] = useState('');
+  const [pickupDate, setPickupDate] = useState('');
+  const [returnDate, setReturnDate] = useState('');
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onSearch({ location, pickupDate, returnDate });
+  };
+
+  return (
+    <div className="search-container">
+      <h1 className="search-title">Trouvez votre voiture idéale</h1>
+      <p className="search-subtitle">Des véhicules de qualité aux meilleurs prix</p>
+      
+      <form onSubmit={handleSubmit} className="search-form">
+        <div className="form-group">
+          <FaMapMarkerAlt className="input-icon" />
+          <input
+            type="text"
+            placeholder="Lieu de prise en charge"
+            value={location}
+            onChange={(e) => setLocation(e.target.value)}
+            className="search-input"
+          />
+        </div>
+        
+        <div className="form-group">
+          <FaCalendarAlt className="input-icon" />
+          <input
+            type="date"
+            placeholder="Date de début"
+            value={pickupDate}
+            onChange={(e) => setPickupDate(e.target.value)}
+            className="search-input"
+          />
+        </div>
+        
+        <div className="form-group">
+          <FaCalendarAlt className="input-icon" />
+          <input
+            type="date"
+            placeholder="Date de retour"
+            value={returnDate}
+            onChange={(e) => setReturnDate(e.target.value)}
+            className="search-input"
+          />
+        </div>
+        
+        <button type="submit" className="search-button">
+          <FaSearch className="button-icon" />
+          Rechercher
+        </button>
+      </form>
+    </div>
+  );
+};
+
+export default SearchBar;
+/////////////////////////////////////////////////////////////////////
+/* src/components/SearchBar/SearchBar.css */
+.search-container {
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+                url('/images/hero-bg.jpg') center/cover no-repeat;
+    padding: 5rem 2rem;
+    text-align: center;
+    color: white;
+    border-radius: 0.5rem;
+    margin-bottom: 3rem;
+  }
+  
+  .search-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+  
+  .search-subtitle {
+    font-size: 1.1rem;
+    margin-bottom: 2.5rem;
+    opacity: 0.9;
+  }
+  
+  .search-form {
+    display: flex;
+    max-width: 1000px;
+    margin: 0 auto;
+    background-color: white;
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+  
+  .form-group {
+    position: relative;
+    flex: 1;
+  }
+  
+  .input-icon {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #666;
+  }
+  
+  .search-input {
+    width: 100%;
+    padding: 1rem 1rem 1rem 2.5rem;
+    border: none;
+    border-radius: 0.25rem;
+    font-size: 1rem;
+  }
+  
+  .search-input:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(0, 98, 204, 0.2);
+  }
+  
+  .search-button {
+    background-color: #0062cc;
+    color: white;
+    border: none;
+    border-radius: 0.25rem;
+    padding: 0 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    transition: background-color 0.3s ease;
+  }
+  
+  .search-button:hover {
+    background-color: #0051a8;
+  }
+  
+  .button-icon {
+    margin-right: 0.5rem;
+  }
+  
+  @media (max-width: 992px) {
+    .search-form {
+      flex-direction: column;
+      gap: 0.5rem;
+      padding: 1rem;
+    }
+    
+    .form-group {
+      margin-bottom: 0.5rem;
+    }
+    
+    .search-title {
+      font-size: 2rem;
+    }
+  }
+////////////////////////////////////////////////////
+// src/components/Footer/Footer.jsx
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { 
+  FaFacebook, FaTwitter, FaInstagram, FaLinkedin, 
+  FaPhoneAlt, FaEnvelope, FaMapMarkerAlt 
+} from 'react-icons/fa';
+import './footer.css';
+import logo from '../../assets/logo.svg';
+
+const Footer = () => {
+  return (
+    <footer className="footer">
+      <div className="footer-content">
+        
+        {/* Section Logo & Description */}
+        <div className="footer-section">
+          <img src={logo} alt="AutoRent" className="footer-logo" />
+          <p className="company-description">
+            AutoRent propose des solutions de location de véhicules adaptées à tous vos besoins, 
+            avec un service client de qualité et des tarifs compétitifs.
+          </p>
+          <div className="social-links">
+            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" title="Facebook" className="social-link">
+              <FaFacebook />
+            </a>
+            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" title="Twitter" className="social-link">
+              <FaTwitter />
+            </a>
+            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" title="Instagram" className="social-link">
+              <FaInstagram />
+            </a>
+            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" title="LinkedIn" className="social-link">
+              <FaLinkedin />
+            </a>
+          </div>
+        </div>
+
+        {/* Section Liens Rapides */}
+        <nav className="footer-section">
+          <h3 className="footer-title">Liens rapides</h3>
+          <ul className="footer-links">
+            <li><Link to="/">Accueil</Link></li>
+            <li><Link to="/vehicules">Véhicules</Link></li>
+            <li><Link to="/offres">Offres spéciales</Link></li>
+            <li><Link to="/faq">FAQ</Link></li>
+            <li><Link to="/contact">Contact</Link></li>
+          </ul>
+        </nav>
+
+        {/* Section Services */}
+        <nav className="footer-section">
+          <h3 className="footer-title">Nos services</h3>
+          <ul className="footer-links">
+            <li><Link to="/location-courte-duree">Location courte durée</Link></li>
+            <li><Link to="/location-longue-duree">Location longue durée</Link></li>
+            <li><Link to="/transfert-aeroport">Transfert aéroport</Link></li>
+            <li><Link to="/location-avec-chauffeur">Location avec chauffeur</Link></li>
+          </ul>
+        </nav>
+
+        {/* Section Contact */}
+        <div className="footer-section">
+          <h3 className="footer-title">Contact</h3>
+          <ul className="contact-info">
+            <li><FaPhoneAlt /> <a href="tel:+33123456789">+33 1 23 45 67 89</a></li>
+            <li><FaEnvelope /> <a href="mailto:contact@autorent.com">contact@autorent.com</a></li>
+            <li><FaMapMarkerAlt /> 123 Avenue des Champs-Élysées, Paris</li>
+          </ul>
+        </div>
+
+      </div>
+    </footer>
+  );
+};
+
+export default Footer;
+
+//////////////////////////////////////////////////////////////////////////
+/*C:\Users\aimen\car-rental\src\components\Footer\footer.css*/
+.footer {
+    background-color: #222;
+    color: white;
+    padding: 2rem 0;
+  }
+  
+  .footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+  
+  .footer-section {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .footer-logo {
+    width: 150px;
+    margin-bottom: 1rem;
+  }
+  
+  .company-description {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: #bbb;
+  }
+  
+  .social-links {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+  
+  .social-link {
+    color: white;
+    font-size: 1.5rem;
+    transition: color 0.3s ease;
+  }
+  
+  .social-link:hover {
+    color: #007bff;
+  }
+  
+  .footer-title {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+  }
+  
+  .footer-links {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .footer-links li {
+    margin-bottom: 0.5rem;
+  }
+  
+  .footer-links a {
+    color: #bbb;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  
+  .footer-links a:hover {
+    color: white;
+  }
+  
+  .contact-info {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .contact-info li {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    color: #bbb;
+  }
+  
+  .contact-info a {
+    color: #bbb;
+    text-decoration: none;
+  }
+  
+  .contact-info a:hover {
+    color: white;
+  }
+  
+  @media (max-width: 768px) {
+    .footer-content {
+      grid-template-columns: 1fr;
+      text-align: center;
+    }
+  
+    .social-links {
+      justify-content: center;
+    }
+  }
+  
+////////////////////////////////////////////////////////
+// src/components/FilterBar/FilterBar.jsx
+import React, { useState } from 'react';
+import { FaFilter, FaCar, FaGasPump, FaUserFriends } from 'react-icons/fa';
+import './filterBar.css';
+
+const FilterBar = ({ onFilterChange }) => {
+  const [activeTab, setActiveTab] = useState('Tous');
+  const [priceRange, setPriceRange] = useState([0, 500]);
+
+  const handleTabChange = (tab) => {
+    setActiveTab(tab);
+    onFilterChange({ category: tab });
+  };
+
+  const handlePriceChange = (e) => {
+    setPriceRange([0, parseInt(e.target.value)]);
+    onFilterChange({ price: parseInt(e.target.value) });
+  };
+
+  const tabs = [
+    { id: 'Tous', label: 'Tous les véhicules' },
+    { id: 'Économique', label: 'Économique' },
+    { id: 'Confort', label: 'Confort' },
+    { id: 'Premium', label: 'Premium' }
+  ];
+
+  const carTypes = [
+    { id: 'compact', label: 'Compact', icon: <FaCar /> },
+    { id: 'berline', label: 'Berline', icon: <FaCar /> },
+    { id: 'suv', label: 'SUV', icon: <FaCar /> },
+    { id: 'luxury', label: 'Luxe', icon: <FaCar /> },
+    { id: 'electric', label: 'Électrique', icon: <FaGasPump /> }
+  ];
+
+  return (
+    <div className="filter-container">
+      <div className="filter-header">
+        <h2 className="filter-title"><FaFilter /> Filtres</h2>
+      </div>
+      
+      <div className="tabs">
+        {tabs.map((tab) => (
+          <button
+            key={tab.id}
+            className={`tab ${activeTab === tab.id ? 'active' : ''}`}
+            onClick={() => handleTabChange(tab.id)}
+          >
+            {tab.label}
+          </button>
+        ))}
+      </div>
+      
+      <div className="filter-section">
+        <h3 className="section-title">Budget</h3>
+        <div className="price-slider">
+          <input 
+            type="range" 
+            min="0" 
+            max="500" 
+            step="10"
+            value={priceRange[1]}
+            onChange={handlePriceChange}
+            className="slider"
+          />
+          <div className="price-range">
+            <span>0€</span>
+            <span>{priceRange[1]}€ / jour</span>
+          </div>
+        </div>
+      </div>
+      
+      <div className="filter-section">
+        <h3 className="section-title">Type de véhicule</h3>
+        <div className="car-types">
+          {carTypes.map((type) => (
+            <button key={type.id} className="type-button">
+              {type.icon}
+              <span>{type.label}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+      
+      <div className="filter-section">
+        <h3 className="section-title">Passagers</h3>
+        <div className="passengers-filter">
+          <div className="passenger-option">
+            <FaUserFriends />
+            <span>2+</span>
+          </div>
+          <div className="passenger-option">
+            <FaUserFriends />
+            <span>4+</span>
+          </div>
+          <div className="passenger-option">
+            <FaUserFriends />
+            <span>5+</span>
+          </div>
+          <div className="passenger-option">
+            <FaUserFriends />
+            <span>7+</span>
+          </div>
+        </div>
+      </div>
+      
+      <button className="apply-filter-button">Appliquer les filtres</button>
+    </div>
+  );
+};
+
+export default FilterBar;
+////////////////////////////////////////////////////////////////////////////////////
+/* src/components/FilterBar/FilterBar.css */
+.filter-container {
+    background-color: white;
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  }
+  
+  .filter-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  .filter-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .tabs {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+  }
+  
+  .tab {
+    padding: 0.5rem 1rem;
+    background-color: #f5f5f5;
+    border-radius: 2rem;
+    font-weight: 500;
+    color: #666;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+  }
+  
+  .tab.active {
+    background-color: #0062cc;
+    color: white;
+  }
+  
+  .filter-section {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  
+  .section-title {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+  
+  .price-slider {
+    padding: 0 0.5rem;
+  }
+  
+  .slider {
+    width: 100%;
+    height: 5px;
+    background: #f0f0f0;
+    outline: none;
+    /*-webkit-appearance: none;*/
+    border-radius: 5px;
+  }
+  
+  .slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #0062cc;
+    cursor: pointer;
+  }
+  
+  .price-range {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 0.5rem;
+    color: #666;
+  }
+  
+  .car-types {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 0.75rem;
+  }
+  
+  .type-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem 0.5rem;
+    background-color: #f5f5f5;
+    border-radius: 0.5rem;
+    transition: all 0.3s ease;
+    gap: 0.5rem;
+  }
+  
+  .type-button:hover {
+    background-color: #e6e6e6;
+  }
+  
+  .type-button svg {
+    font-size: 1.5rem;
+    color: #0062cc;
+  }
+  
+  .passengers-filter {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .passenger-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    background-color: #f5f5f5;
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+  
+  .passenger-option:hover {
+    background-color: #e6e6e6;
+  }
+  
+  .passenger-option svg {
+    color: #0062cc;
+    font-size: 1.25rem;
+  }
+  
+  .apply-filter-button {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: #0062cc;
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+  }
+  
+  .apply-filter-button:hover {
+    background-color: #0051a8;
+  }
+  
+  @media (max-width: 768px) {
+    .tabs {
+      padding-bottom: 0.75rem;
+    }
+    
+    .car-types {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .passengers-filter {
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    
+    .passenger-option {
+      flex: 1 0 calc(50% - 0.5rem);
+    }
+  }
+/////////////////////////////////////////////
+// src/components/CarList/CarList.jsx
+import React from 'react';
+import CarCard from '../CarCard/CarCard';
+import './carList.css';
+
+const CarList = ({ cars, title = "Véhicules disponibles" }) => {
+  if (!cars || cars.length === 0) {
+    return (
+      <div className="car-list-container">
+        <h2 className="car-list-title">{title}</h2>
+        <div className="no-cars">
+          <p>Aucun véhicule ne correspond à votre recherche.</p>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="car-list-container">
+      <div className="list-header">
+        <h2 className="car-list-title">{title}</h2>
+        <p className="results-count">{cars.length} véhicules trouvés</p>
+      </div>
+      
+      <div className="car-grid">
+        {cars.map((car) => (
+          <CarCard key={car.id} car={car} />
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default CarList;
+////////////////////////////////////////////////////////////////////////
+/* src/components/CarList/CarList.css */
+.car-list-container {
+    margin-bottom: 3rem;
+  }
+  
+  .list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  .car-list-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0;
+  }
+  
+  .results-count {
+    color: #666;
+    font-size: 0.9rem;
+  }
+  
+  .car-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  .no-cars {
+    background-color: white;
+    border-radius: 0.5rem;
+    padding: 3rem;
+    text-align: center;
+    color: #666;
+  }
+  
+  @media (max-width: 992px) {
+    .car-grid {
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.25rem;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .car-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .list-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+  }
+////////////////////////////////////////////////////////////////////////////////////////////////////
+//C:\Users\aimen\car-rental\src\components\CarCard\CarCard.jsx
+import React, { useState, useContext } from 'react';
+import { FaCar, FaGasPump, FaUserFriends, FaCog, FaHeart, FaChevronDown, FaChevronUp } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
+import { CartContext } from '../../context/CartContext'; // Import du contexte panier
+import './carCard.css';
+
+const CarCard = ({ car }) => {
+  const [showDescription, setShowDescription] = useState(false);
+  const [rentalDuration, setRentalDuration] = useState(1); // Durée par défaut 1 jour
+  const { addToCart } = useContext(CartContext); // Utilisation du contexte panier
+
+  const handleAddToCart = () => {
+    const rentalData = {
+      ...car,
+      duration: rentalDuration,
+      totalPrice: rentalDuration * car.price
+    };
+    addToCart(rentalData);
+  };
+
+  return (
+    <div className="car-card">
+      <div className="car-image-container">
+        <img src={car.image} alt={car.name} className="car-image" />
+        <button className="favorite-button">
+          <FaHeart />
+        </button>
+      </div>
+      
+      <div className="car-details">
+        <div className="car-header">
+          <h3 className="car-name">{car.name}</h3>
+          <div className="car-category">{car.category}</div>
+        </div>
+        
+        <div className="car-features">
+          <div className="feature">
+            <FaUserFriends />
+            <span>{car.seats} places</span>
+          </div>
+          <div className="feature">
+            <FaGasPump />
+            <span>{car.fuelType}</span>
+          </div>
+          <div className="feature">
+            <FaCog />
+            <span>{car.transmission}</span>
+          </div>
+          <div className="feature">
+            <FaCar />
+            <span>{car.type}</span>
+          </div>
+        </div>
+        
+        <button 
+          className="description-toggle"
+          onClick={() => setShowDescription(!showDescription)}
+        >
+          {showDescription ? 'Masquer la description' : 'Voir la description'}
+          {showDescription ? <FaChevronUp /> : <FaChevronDown />}
+        </button>
+        
+        {showDescription && (
+          <div className="car-description">
+            <p>{car.description || "Aucune description disponible pour ce véhicule."}</p>
+          </div>
+        )}
+
+
+        <div className="car-footer">
+          <div className="car-price">
+            <span className="price">{car.price}€</span>
+            <span className="price-period">/jour</span>
+          </div>
+          
+          <Link to={`/car/${car.id}`} className="view-details-button">
+            Voir détails
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default CarCard;
+
+///////////////////////////////////////////////////////////////////////
+/*C:\Users\aimen\car-rental\src\components\CarCard\carcard.css*/
+.car-card {
+    background-color: white;
+    border-radius: 0.75rem;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .car-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  }
+  
+  .car-image-container {
+    position: relative;
+    height: 200px;
+    overflow: hidden;
+  }
+  
+  .car-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+  
+  .car-card:hover .car-image {
+    transform: scale(1.05);
+  }
+  
+  .favorite-button {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    background-color: white;
+    border-radius: 50%;
+    width: 2.25rem;
+    height: 2.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    color: #666;
+    transition: color 0.3s ease, background-color 0.3s ease;
+  }
+  
+  .favorite-button:hover {
+    color: #e74c3c;
+  }
+  
+  .car-details {
+    padding: 1.25rem;
+  }
+  
+  .car-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+  }
+  
+  .car-name {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0;
+  }
+  
+  .car-category {
+    background-color: #f0f9ff;
+    color: #0062cc;
+    padding: 0.25rem 0.75rem;
+    border-radius: 1rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+  }
+  
+  .car-features {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+  }
+  
+  .feature {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    color: #666;
+  }
+  
+  .feature svg {
+    color: #0062cc;
+  }
+  
+  .description-toggle {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    background-color: #f5f5f5;
+    border: none;
+    border-radius: 0.25rem;
+    color: #0062cc;
+    font-weight: 500;
+    cursor: pointer;
+    margin-bottom: 1rem;
+    transition: background-color 0.3s ease;
+  }
+  
+  .description-toggle:hover {
+    background-color: #e6e6e6;
+  }
+  
+  .car-description {
+    background-color: #f9f9f9;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+    color: #444;
+    line-height: 1.5;
+    border-left: 3px solid #0062cc;
+  }
+  
+
+  
+  .car-price {
+    display: flex;
+    align-items: baseline;
+  }
+  
+  .price {
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: #0062cc;
+  }
+  
+  .price-period {
+    font-size: 0.875rem;
+    color: #666;
+    margin-left: 0.25rem;
+  }
+  
+  .view-details-button {
+    padding: 0.5rem 1rem;
+    background-color: #0062cc;
+    color: white;
+    border-radius: 0.25rem;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+  }
+  
+  .view-details-button:hover {
+    background-color: #0051a8;
+  }
+  .car-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+  }
+  
+  .choose-button {
+    background-color: #28a745; /* Vert pour indiquer la sélection */
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s ease;
+  }
+  
+  .choose-button:hover {
+    background-color: #218838;
+  }
+  
+  .rental-form {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+  }
+  
+  .rental-form input {
+    width: 60px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    text-align: center;
+  }
+  
+  .ok-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .ok-button:hover {
+    background-color: #0056b3;
+  }
+ ////////////////////////////////////////////////////////////////////////////////////////////
+//C:\Users\aimen\car-rental\src\context\CartContext.jsx
+import { createContext, useContext, useState } from "react";
+
+export const CartContext = createContext();
+
+export const CartProvider = ({ children }) => {
+  const [cartItems, setCartItems] = useState([]); // 🔹 Utilisation de cartItems
+
+  const addToCart = (car) => {
+    setCartItems((prevCart) => {
+      const existingCar = prevCart.find((item) => item.id === car.id);
+      if (existingCar) {
+        return prevCart.map((item) =>
+          item.id === car.id
+            ? { ...item, duration: car.duration, totalPrice: car.totalPrice }
+            : item
+        );
+      }
+      return [...prevCart, car];
+    });
+  };
+
+  // ✅ Fonction pour supprimer un élément du panier
+  const removeFromCart = (id) => {
+    setCartItems((prevCart) => prevCart.filter((item) => item.id !== id));
+  };
+
+  return (
+    <CartContext.Provider value={{ cartItems, addToCart, removeFromCart }}>
+      {children}
+    </CartContext.Provider>
+  );
+};
+
+// 🔹 Fonction pour utiliser le contexte facilement
+export const useCart = () => useContext(CartContext);
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//C:\Users\aimen\car-rental\src\pages\CarDetails\CarDetails.jsx
+import React, { useContext, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { carsData } from "../../data/cars";
+import { CartContext } from "../../context/CartContext"; // ✅ Importation du contexte du panier
+import { FaCar, FaGasPump, FaUserFriends, FaCog } from "react-icons/fa";
+import "./carDetails.css";
+
+const CarDetails = () => {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const { addToCart } = useContext(CartContext); // ✅ Utilisation du contexte du panier
+  const [duration, setDuration] = useState(1); // ✅ État pour la durée (1 jour par défaut)
+
+  const car = carsData.find((car) => car.id === parseInt(id));
+
+  if (!car) {
+    return <h2 className="not-found">Véhicule introuvable</h2>;
+  }
+
+  // ✅ Fonction pour ajouter la voiture au panier
+  const handleChoose = () => {
+    const totalPrice = car.price * duration;
+    const carWithDetails = { ...car, duration, totalPrice };
+
+    addToCart(carWithDetails);
+    alert(`${car.name} ajouté pour ${duration} jour(s) (${totalPrice}€)`);
+    navigate("/cart"); // ✅ Redirection vers la page du panier
+  };
+
+  return (
+    <div className="car-details-container">
+      <h1 className="car-title">{car.name}</h1>
+      <img src={car.image} alt={car.name} className="car-image-large" />
+
+      <div className="car-info">
+        <div className="info-block">
+          <FaUserFriends /> <span>{car.seats} places</span>
+        </div>
+        <div className="info-block">
+          <FaGasPump /> <span>{car.fuelType}</span>
+        </div>
+        <div className="info-block">
+          <FaCog /> <span>{car.transmission}</span>
+        </div>
+        <div className="info-block">
+          <FaCar /> <span>{car.type}</span>
+        </div>
+      </div>
+
+      <p className="car-description">{car.description}</p>
+
+      <div className="car-price">
+        <strong>Prix :</strong> {car.price}€/jour
+      </div>
+
+      {/* ✅ Sélection de la durée */}
+      <label htmlFor="duration">Durée (jours) :</label>
+      <input
+        type="number"
+        id="duration"
+        min="1"
+        value={duration}
+        onChange={(e) => setDuration(parseInt(e.target.value))}
+        className="duration-input"
+      />
+
+      {/* ✅ Bouton "Choisir" */}
+      <button className="choose-button" onClick={handleChoose}>
+        Choisir
+      </button>
+
+      {/* ✅ Bouton de retour à l'accueil */}
+      <button className="back-button" onClick={() => navigate("/")}>
+        Retour à l'accueil
+      </button>
+    </div>
+  );
+};
+
+export default CarDetails;
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/*C:\Users\aimen\car-rental\src\pages\CarDetails\carDetails.css*/
+.car-details-container {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  text-align: center;
+}
+
+.car-title {
+  font-size: 26px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.car-image-large {
+  width: 100%;
+  max-height: 400px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 2px solid #ddd;
+}
+
+.car-info {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin: 20px 0;
+  flex-wrap: wrap;
+}
+
+.info-block {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  color: #444;
+  background: #f8f9fa;
+  padding: 8px 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.car-description {
+  font-size: 18px;
+  color: #555;
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+
+.car-price {
+  font-size: 22px;
+  font-weight: bold;
+  color: #007bff;
+  margin-bottom: 15px;
+}
+
+.not-found {
+  text-align: center;
+  font-size: 24px;
+  color: red;
+}
+
+/* ✅ Amélioration des boutons */
+button {
+  font-size: 16px;
+  font-weight: bold;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.back-button {
+  background-color: #007bff;
+  color: white;
+  margin-left: 10px;
+}
+
+.back-button:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+}
+
+.choose-button {
+  background-color: #28a745;
+  color: white;
+  margin-left: 10px;
+}
+
+.choose-button:hover {
+  background-color: #218838;
+  transform: scale(1.05);
+}
+
+/* ✅ Style amélioré pour l'input */
+.duration-input {
+  width: 60px;
+  padding: 8px;
+  font-size: 16px;
+  text-align: center;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  margin-right: 10px;
+  transition: 0.3s;
+}
+
+.duration-input:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* ✅ Conteneur des boutons pour un meilleur alignement */
+.button-container {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//C:\Users\aimen\car-rental\src\data\cars.js
+export const carsData = [
+    {
+      id: 1,
+      name: "Audi S5",
+      category: "Sport",
+      price: 35,
+      image: "/images/cars/1.jpg",
+      seats: 5,
+      fuelType: "Essence",
+      transmission: "Automatique",
+      type: "Coupé",
+      description: "L'Audi S5 est un coupé sportif qui allie puissance et élégance. Son moteur V6 turbo de 354 ch, sa transmission quattro et son intérieur raffiné offrent une expérience de conduite dynamique et luxueuse."
+    },
+    {
+      id: 2,
+      name: "BMW M3 CS",
+      category: "Sport",
+      price: 65,
+      image: "/images/cars/2.jpg",
+      seats: 5,
+      fuelType: "Essence",
+      transmission: "Automatique",
+      type: "Berline",
+      description: "La BMW M3 CS est une berline sportive d’exception avec un moteur 6 cylindres en ligne de 550 ch. Son châssis affûté et ses performances sur circuit en font une référence pour les amateurs de sensations fortes."
+    },
+    {
+      id: 3,
+      name: "BMW X5",
+      category: "Premium",
+      price: 95,
+      image: "/images/cars/3.jpg",
+      seats: 5,
+      fuelType: "Hybride",
+      transmission: "Automatique",
+      type: "SUV",
+      description: "Le BMW X5 est un SUV premium combinant luxe, puissance et polyvalence. Avec sa motorisation hybride rechargeable, son intérieur raffiné et ses technologies avancées, il est idéal pour les longs trajets et le quotidien."
+    },
+    {
+      id: 4,
+      name: "VW Polo 2019",
+      category: "Économique",
+      price: 30,
+      image: "/images/cars/4.jpg",
+      seats: 4,
+      fuelType: "Essence",
+      transmission: "Manuelle",
+      type: "Citadine",
+      description: "La Volkswagen Polo 2019 est une citadine compacte offrant un excellent rapport qualité-prix. Économique et agile, elle est parfaite pour une conduite urbaine confortable et efficace."
+    },
+    {
+      id: 5,
+      name: "Porsche Macan",
+      category: "Premium",
+      price: 120,
+      image: "/images/cars/5.jpg",
+      seats: 5,
+      fuelType: "Essence",
+      transmission: "Automatique",
+      type: "SUV",
+      description: "Le Porsche Macan est un SUV sportif alliant performances et luxe. Son moteur puissant, son design agressif et son intérieur haut de gamme en font un véhicule idéal pour ceux qui recherchent dynamisme et confort."
+    },
+    {
+      id: 6,
+      name: "Toyota Corolla",
+      category: "Confort",
+      price: 55,
+      image: "/images/cars/6.jpg",
+      seats: 5,
+      fuelType: "Hybride",
+      transmission: "Automatique",
+      type: "Berline",
+      description: "La Toyota Corolla hybride est une berline fiable et économique. Son système hybride offre une conduite fluide et une consommation réduite, idéale pour les trajets urbains comme pour les longs parcours."
+    }
+];
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+Je vais compléter ce projet en ajoutant les fonctionnalités demandées : affichage de la description pour chaque voiture, création des pages de login et signup, et ajout du footer sur la page d'accueil.
+
+Commençons par mettre en place ces améliorations :
+
+## 1. Modification du composant CarCard pour afficher la description
+
+jsx
+import React, { useState } from 'react';
+import { FaCar, FaGasPump, FaUserFriends, FaCog, FaHeart, FaChevronDown, FaChevronUp } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
+import './carCard.css';
+
+const CarCard = ({ car }) => {
+  const [showDescription, setShowDescription] = useState(false);
+
+  return (
+    <div className="car-card">
+      <div className="car-image-container">
+        <img src={car.image} alt={car.name} className="car-image" />
+        <button className="favorite-button">
+          <FaHeart />
+        </button>
+      </div>
+      
+      <div className="car-details">
+        <div className="car-header">
+          <h3 className="car-name">{car.name}</h3>
+          <div className="car-category">{car.category}</div>
+        </div>
+        
+        <div className="car-features">
+          <div className="feature">
+            <FaUserFriends />
+            <span>{car.seats} places</span>
+          </div>
+          <div className="feature">
+            <FaGasPump />
+            <span>{car.fuelType}</span>
+          </div>
+          <div className="feature">
+            <FaCog />
+            <span>{car.transmission}</span>
+          </div>
+          <div className="feature">
+            <FaCar />
+            <span>{car.type}</span>
+          </div>
+        </div>
+        
+        <button 
+          className="description-toggle"
+          onClick={() => setShowDescription(!showDescription)}
+        >
+          {showDescription ? 'Masquer la description' : 'Voir la description'}
+          {showDescription ? <FaChevronUp /> : <FaChevronDown />}
+        </button>
+        
+        {showDescription && (
+          <div className="car-description">
+            <p>{car.description || "Aucune description disponible pour ce véhicule."}</p>
+          </div>
+        )}
+        
+        <div className="car-footer">
+          <div className="car-price">
+            <span className="price">{car.price}€</span>
+            <span className="price-period">/jour</span>
+          </div>
+          
+          <Link to={`/car/${car.id}`} className="view-details-button">
+            Voir détails
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default CarCard;
+
+
+## 2. Mise à jour du CSS pour CarCard avec description
+
+css
+.car-card {
+  background-color: white;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.car-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.car-image-container {
+  position: relative;
+  height: 200px;
+  overflow: hidden;
+}
+
+.car-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.car-card:hover .car-image {
+  transform: scale(1.05);
+}
+
+.favorite-button {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  background-color: white;
+  border-radius: 50%;
+  width: 2.25rem;
+  height: 2.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  color: #666;
+  transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+.favorite-button:hover {
+  color: #e74c3c;
+}
+
+.car-details {
+  padding: 1.25rem;
+}
+
+.car-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.car-name {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.car-category {
+  background-color: #f0f9ff;
+  color: #0062cc;
+  padding: 0.25rem 0.75rem;
+  border-radius: 1rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.car-features {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.feature {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: #666;
+}
+
+.feature svg {
+  color: #0062cc;
+}
+
+.description-toggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  background-color: #f5f5f5;
+  border: none;
+  border-radius: 0.25rem;
+  color: #0062cc;
+  font-weight: 500;
+  cursor: pointer;
+  margin-bottom: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.description-toggle:hover {
+  background-color: #e6e6e6;
+}
+
+.car-description {
+  background-color: #f9f9f9;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  color: #444;
+  line-height: 1.5;
+  border-left: 3px solid #0062cc;
+}
+
+.car-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 1rem;
+  border-top: 1px solid #f0f0f0;
+}
+
+.car-price {
+  display: flex;
+  align-items: baseline;
+}
+
+.price {
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: #0062cc;
+}
+
+.price-period {
+  font-size: 0.875rem;
+  color: #666;
+  margin-left: 0.25rem;
+}
+
+.view-details-button {
+  padding: 0.5rem 1rem;
+  background-color: #0062cc;
+  color: white;
+  border-radius: 0.25rem;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+}
+
+.view-details-button:hover {
+  background-color: #0051a8;
+}
+
+
+## 3. Mise à jour du fichier cars.js pour ajouter les descriptions
+
+javascript
+// src/data/cars.js
+export const carsData = [
+  {
+    id: 1,
+    name: "Renault Clio",
+    category: "Économique",
+    price: 35,
+    image: "/images/cars/renault-clio.jpg",
+    seats: 5,
+    fuelType: "Essence",
+    transmission: "Manuelle",
+    type: "Compact",
+    description: "La Renault Clio est une citadine polyvalente idéale pour les déplacements urbains. Compacte, économique et facile à conduire, elle offre un excellent rapport qualité-prix avec sa consommation de carburant réduite et son intérieur confortable."
+  },
+  {
+    id: 2,
+    name: "Peugeot 3008",
+    category: "Confort",
+    price: 65,
+    image: "/images/cars/peugeot-3008.jpg",
+    seats: 5,
+    fuelType: "Diesel",
+    transmission: "Automatique",
+    type: "SUV",
+    description: "Le Peugeot 3008 est un SUV familial qui combine élégance et praticité. Son intérieur spacieux et raffiné, son coffre généreux et ses technologies avancées en font un compagnon idéal pour les voyages en famille ou les trajets professionnels."
+  },
+  {
+    id: 3,
+    name: "Mercedes Classe C",
+    category: "Premium",
+    price: 95,
+    image: "/images/cars/mercedes-classe-c.jpg",
+    seats: 5,
+    fuelType: "Hybride",
+    transmission: "Automatique",
+    type: "Berline",
+    description: "La Mercedes Classe C représente le luxe et le confort à l'allemande. Avec ses finitions haut de gamme, son silence de roulement exceptionnel et ses technologies de pointe, elle vous offre une expérience de conduite premium pour tous vos déplacements professionnels ou personnels."
+  },
+  {
+    id: 4,
+    name: "Fiat 500",
+    category: "Économique",
+    price: 30,
+    image: "/images/cars/fiat-500.jpg",
+    seats: 4,
+    fuelType: "Essence",
+    transmission: "Manuelle",
+    type: "Citadine",
+    description: "La Fiat 500 est une citadine compacte au design iconique. Parfaite pour la ville avec sa taille réduite et sa facilité de stationnement, elle conserve un charme rétro inimitable tout en intégrant des équipements modernes pour votre confort quotidien."
+  },
+  {
+    id: 5,
+    name: "BMW X5",
+    category: "Premium",
+    price: 120,
+    image: "/images/cars/bmw-x5.jpg",
+    seats: 7,
+    fuelType: "Diesel",
+    transmission: "Automatique",
+    type: "SUV",
+    description: "Le BMW X5 est un SUV premium qui offre à la fois puissance, espace et confort. Son intérieur luxueux, ses performances exceptionnelles et sa capacité à accueillir jusqu'à 7 passagers en font le véhicule idéal pour les longs trajets et les aventures familiales."
+  },
+  {
+    id: 6,
+    name: "Toyota Corolla",
+    category: "Confort",
+    price: 55,
+    image: "/images/cars/toyota-corolla.jpg",
+    seats: 5,
+    fuelType: "Hybride",
+    transmission: "Automatique",
+    type: "Berline",
+    description: "La Toyota Corolla hybride allie fiabilité et économie. Sa motorisation hybride permet de réduire considérablement la consommation de carburant tout en offrant une conduite souple et silencieuse. Un excellent choix pour les trajets quotidiens comme pour les longs voyages."
+  }
+];
+
+
+## 4. Création de la page Login
+
+jsx
+// src/pages/Login/Login.jsx
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { FaEnvelope, FaLock, FaGoogle, FaFacebook } from 'react-icons/fa';
+import Header from '../../components/Header/Header';
+import Footer from '../../components/Footer/Footer';
+import './login.css';
+
+const Login = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [rememberMe, setRememberMe] = useState(false);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log('Login attempt with:', { email, password, rememberMe });
+    // Ici, vous pourriez implémenter la logique d'authentification
+  };
+
+  return (
+    <div className="login-page">
+      <Header />
+      <div className="login-container">
+        <div className="login-card">
+          <div className="login-header">
+            <h1>Connexion</h1>
+            <p>Bienvenue sur AutoRent, louez votre véhicule en quelques clics</p>
+          </div>
+
+          <form onSubmit={handleSubmit} className="login-form">
+            <div className="form-group">
+              <label htmlFor="email">Email</label>
+              <div className="input-with-icon">
+                <FaEnvelope className="input-icon" />
+                <input
+                  type="email"
+                  id="email"
+                  placeholder="Votre adresse email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+              </div>
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="password">Mot de passe</label>
+              <div className="input-with-icon">
+                <FaLock className="input-icon" />
+                <input
+                  type="password"
+                  id="password"
+                  placeholder="Votre mot de passe"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+              </div>
+            </div>
+
+            <div className="form-options">
+              <div className="remember-me">
+                <input
+                  type="checkbox"
+                  id="rememberMe"
+                  checked={rememberMe}
+                  onChange={(e) => setRememberMe(e.target.checked)}
+                />
+                <label htmlFor="rememberMe">Se souvenir de moi</label>
+              </div>
+              <Link to="/forgot-password" className="forgot-password">
+                Mot de passe oublié?
+              </Link>
+            </div>
+
+            <button type="submit" className="login-button">
+              Se connecter
+            </button>
+
+            <div className="social-login">
+              <p>Ou connectez-vous avec</p>
+              <div className="social-buttons">
+                <button type="button" className="google-button">
+                  <FaGoogle /> Google
+                </button>
+                <button type="button" className="facebook-button">
+                  <FaFacebook /> Facebook
+                </button>
+              </div>
+            </div>
+          </form>
+
+          <div className="register-link">
+            <p>
+              Vous n'avez pas de compte?{' '}
+              <Link to="/signup">Créer un compte</Link>
+            </p>
+          </div>
+        </div>
+      </div>
+      <Footer />
+    </div>
+  );
+};
+
+export default Login;
+
+
+## 5. CSS pour la page Login
+
+css
+/* src/pages/Login/login.css */
+.login-page {
+  min-height: 100vh;
+  background-color: var(--secondary-color);
+  display: flex;
+  flex-direction: column;
+}
+
+.login-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+}
+
+.login-card {
+  background-color: white;
+  border-radius: 1rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 450px;
+  padding: 2.5rem;
+}
+
+.login-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.login-header h1 {
+  color: var(--text-color);
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.login-header p {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-group label {
+  color: var(--text-color);
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.input-with-icon {
+  position: relative;
+}
+
+.input-icon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #aaa;
+}
+
+.login-form input[type="email"],
+.login-form input[type="password"] {
+  width: 100%;
+  padding: 0.75rem 1rem 0.75rem 2.5rem;
+  border: 1px solid #ddd;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.login-form input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
+.form-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85rem;
+}
+
+.remember-me {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.forgot-password {
+  color: var(--primary-color);
+  text-decoration: none;
+}
+
+.forgot-password:hover {
+  text-decoration: underline;
+}
+
+.login-button {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.login-button:hover {
+  background-color: #0051a8;
+}
+
+.social-login {
+  margin-top: 1.5rem;
+  text-align: center;
+}
+
+.social-login p {
+  color: #888;
+  font-size: 0.85rem;
+  margin-bottom: 1rem;
+  position: relative;
+}
+
+.social-login p::before,
+.social-login p::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 30%;
+  height: 1px;
+  background-color: #ddd;
+}
+
+.social-login p::before {
+  left: 0;
+}
+
+.social-login p::after {
+  right: 0;
+}
+
+.social-buttons {
+  display: flex;
+  gap: 1rem;
+}
+
+.google-button,
+.facebook-button {
+  flex: 1;
+  padding: 0.6rem;
+  border: 1px solid #ddd;
+  border-radius: 0.5rem;
+  background-color: white;
+  color: #666;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.google-button:hover {
+  background-color: #f9f9f9;
+}
+
+.facebook-button {
+  background-color: #4267B2;
+  color: white;
+  border: none;
+}
+
+.facebook-button:hover {
+  background-color: #365899;
+}
+
+.register-link {
+  margin-top: 1.5rem;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.register-link a {
+  color: var(--primary-color);
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.register-link a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 500px) {
+  .login-card {
+    padding: 1.5rem;
+  }
+  
+  .social-buttons {
+    flex-direction: column;
+  }
+}
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+## 6. Création de la page Signup
+
+jsx
+// src/pages/Signup/Signup.jsx
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { FaUser, FaEnvelope, FaLock, FaPhone, FaGoogle, FaFacebook } from 'react-icons/fa';
+import Header from '../../components/Header/Header';
+import Footer from '../../components/Footer/Footer';
+import './signup.css';
+
+const Signup = () => {
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    password: '',
+    confirmPassword: '',
+    agreeTerms: false
+  });
+
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setFormData(prevData => ({
+      ...prevData,
+      [name]: type === 'checkbox' ? checked : value
+    }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log('Signup attempt with:', formData);
+    // Ici, vous pourriez implémenter la logique d'inscription
+  };
+
+  return (
+    <div className="signup-page">
+      <Header />
+      <div className="signup-container">
+        <div className="signup-card">
+          <div className="signup-header">
+            <h1>Créer un compte</h1>
+            <p>Rejoignez AutoRent et profitez de nos offres exclusives</p>
+          </div>
+
+          <form onSubmit={handleSubmit} className="signup-form">
+            <div className="form-row">
+              <div className="form-group">
+                <label htmlFor="firstName">Prénom</label>
+                <div className="input-with-icon">
+                  <FaUser className="input-icon" />
+                  <input
+                    type="text"
+                    id="firstName"
+                    name="firstName"
+                    placeholder="Votre prénom"
+                    value={formData.firstName}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+              </div>
+              <div className="form-group">
+                <label htmlFor="lastName">Nom</label>
+                <div className="input-with-icon">
+                  <FaUser className="input-icon" />
+                  <input
+                    type="text"
+                    id="lastName"
+                    name="lastName"
+                    placeholder="Votre nom"
+                    value={formData.lastName}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="email">Email</label>
+              <div className="input-with-icon">
+                <FaEnvelope className="input-icon" />
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  placeholder="Votre adresse email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="phone">Téléphone</label>
+              <div className="input-with-icon">
+                <FaPhone className="input-icon" />
+                <input
+                  type="tel"
+                  id="phone"
+                  name="phone"
+                  placeholder="Votre numéro de téléphone"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="password">Mot de passe</label>
+              <div className="input-with-icon">
+                <FaLock className="input-icon" />
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  placeholder="Créer un mot de passe"
+                  value={formData.password}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="confirmPassword">Confirmer le mot de passe</label>
+              <div className="input-with-icon">
+                <FaLock className="input-icon" />
+                <input
+                  type="password"
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  placeholder="Confirmer votre mot de passe"
+                  value={formData.confirmPassword}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+            </div>
+
+            <div className="terms-checkbox">
+              <input
+                type="checkbox"
+                id="agreeTerms"
+                name="agreeTerms"
+                checked={formData.agreeTerms}
+                onChange={handleChange}
+                required
+              />
+              <label htmlFor="agreeTerms">
+                J'accepte les <a href="/terms">conditions d'utilisation</a> et la <a href="/privacy">politique de confidentialité</a>
+              </label>
+            </div>
+
+            <button type="submit" className="signup-button" disabled={!formData.agreeTerms}>
+              Créer mon compte
+            </button>
+
+            <div className="social-signup">
+              <p>Ou inscrivez-vous avec</p>
+              <div className="social-buttons">
+                <button type="button" className="google-button">
+                  <FaGoogle /> Google
+                </button>
+                <button type="button" className="facebook-button">
+                  <FaFacebook /> Facebook
+                </button>
+              </div>
+            </div>
+          </form>
+
+          <div className="login-link">
+            <p>
+              Vous avez déjà un compte?{' '}
+              <Link to="/login">Se connecter</Link>
+            </p>
+          </div>
+        </div>
+      </div>
+      <Footer />
+    </div>
+  );
+};
+
+export default Signup;
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+## 7. CSS pour la page Signup
+
+css
+/* src/pages/Signup/signup.css */
+.signup-page {
+    min-height: 100vh;
+    background-color: var(--secondary-color);
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .signup-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+  }
+  
+  .signup-card {
+    background-color: white;
+    border-radius: 1rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 550px;
+    padding: 2.5rem;
+  }
+  
+  .signup-header {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  
+  .signup-header h1 {
+    color: var(--text-color);
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+  
+  .signup-header p {
+    color: #666;
+    font-size: 0.9rem;
+  }
+  
+  .signup-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+  
+  .form-row {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    flex: 1;
+  }
+  
+  .form-group label {
+    color: var(--text-color);
+    font-weight: 500;
+    font-size: 0.9rem;
+  }
+  
+  .input-with-icon {
+    position: relative;
+  }
+  
+  .input-icon {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #aaa;
+  }
+  
+  .signup-form input[type="text"],
+  .signup-form input[type="email"],
+  .signup-form input[type="tel"],
+  .signup-form input[type="password"] {
+    width: 100%;
+    padding: 0.75rem 1rem 0.75rem 2.5rem;
+    border: 1px solid #ddd;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+  }
+  
+  .signup-form input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+  }
+  
+  .terms-checkbox {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    color: #666;
+  }
+  
+  .terms-checkbox input[type="checkbox"] {
+    margin-top: 0.25rem;
+  }
+  
+  .terms-checkbox a {
+    color: var(--primary-color);
+    text-decoration: none;
+  }
+  
+  .terms-checkbox a:hover {
+    text-decoration: underline;
+  }
+  
+  .signup-button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    padding: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .signup-button:hover:not(:disabled) {
+    background-color: #0051a8;
+  }
+  
+  .signup-button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  
+  .social-signup {
+    margin-top: 1.5rem;
+    text-align: center;
+  }
+  
+  .social-signup p {
+    color: #666;
+    font-size: 0.9rem;
+  }
+  
+  .social-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+  
+  .social-button {
+    background: white;
+    border: 1px solid #ddd;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .social-button:hover {
+    background: #f0f0f0;
+  }
+  
+  .social-button img {
+    width: 20px;
+    height: 20px;
+  }
+
+
+
+
+
+///////////////////////////
+
+/////////////////////////////////////////
+//C:\Users\aimen\car-rental\src\App.jsx
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { CartProvider } from "./context/CartContext"; // ✅ Contexte panier
+import Home from "./pages/Home/Home";
+import Vehicule from "./pages/Vehicule/Vehicule";
+import Contact from "./pages/Contact/Contact";
+import Login from "./pages/Login/Login";
+import Signup from "./pages/Signup/Signup";
+import CarDetails from "./pages/CarDetails/CarDetails";
+import Cart from "./pages/Cart/Cart"; // ✅ Page panier
+
+const App = () => {
+  return (
+    <Router>
+      <CartProvider> {/* ✅ Met le Provider autour de Routes */}
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/vehicules" element={<Vehicule />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/car/:id" element={<CarDetails />} />
+          <Route path="/cart" element={<Cart />} /> {/* ✅ Route panier */}
+        </Routes>
+      </CartProvider>
+    </Router>
+  );
+};
+
+export default App;
+
+/////////////////////////////////////////////////////////////////////
+///C:\Users\aimen\car-rental\src\pages\Cart\Cart.jsx
+import React, { useContext } from "react";
+import { CartContext } from "../../context/CartContext";
+import { Link } from "react-router-dom";
+import "./Cart.css";
+
+const Cart = () => {
+  const { cartItems, removeFromCart } = useContext(CartContext); // ✅ Ajout de la fonction removeFromCart
+
+  return (
+    <div className="cart-page">
+      <h2>Panier</h2>
+      {cartItems.length === 0 ? (
+        <p>Votre panier est vide.</p>
+      ) : (
+        <ul className="cart-list">
+          {cartItems.map((item, index) => (
+            <li key={index} className="cart-item">
+              <img src={item.image} alt={item.name} className="cart-image" />
+              <div className="cart-details">
+                <h3>{item.name}</h3>
+                <p>
+                  {item.duration} jour(s) x {item.price}€ = <strong>{item.totalPrice}€</strong>
+                </p>
+              </div>
+              {/* ✅ Ajout du bouton "Supprimer" */}
+              <button 
+                className="delete-button" 
+                onClick={() => removeFromCart(item.id)}
+              >
+                Supprimer
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
+      <Link to="/" className="return-home">Retour à l'accueil</Link>
+    </div>
+  );
+};
+
+export default Cart;
+////////////////////////////////////////////////////////////////////////////////////////
+/*C:\Users\aimen\car-rental\src\pages\Cart\cart.css*/
+/* Enhanced Cart.css with animations */
+
+.cart-page {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 30px;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    animation: fadeIn 0.8s ease-in-out;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  .cart-page h2 {
+    font-size: 2.2rem;
+    color: #2c3e50;
+    margin-bottom: 30px;
+    position: relative;
+    display: inline-block;
+  }
+  
+  .cart-page h2:after {
+    content: '';
+    position: absolute;
+    width: 50%;
+    height: 3px;
+    background: #3498db;
+    bottom: -10px;
+    left: 25%;
+    border-radius: 2px;
+    transform: scaleX(0);
+    transform-origin: center;
+    animation: underlineAnim 1s forwards 0.5s;
+  }
+  
+  @keyframes underlineAnim {
+    to { transform: scaleX(1); }
+  }
+  
+  .cart-list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .cart-item {
+    display: flex;
+    align-items: center;
+    background: white;
+    padding: 20px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s, box-shadow 0.3s;
+    animation: slideIn 0.5s ease-out forwards;
+    opacity: 0;
+  }
+  
+  .cart-item:nth-child(1) { animation-delay: 0.1s; }
+  .cart-item:nth-child(2) { animation-delay: 0.2s; }
+  .cart-item:nth-child(3) { animation-delay: 0.3s; }
+  .cart-item:nth-child(4) { animation-delay: 0.4s; }
+  
+  @keyframes slideIn {
+    from { 
+      opacity: 0;
+      transform: translateX(-30px);
+    }
+    to { 
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  
+  .cart-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  }
+  
+  .cart-image {
+    width: 120px;
+    height: 80px;
+    object-fit: cover;
+    margin-right: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+  }
+  
+  .cart-item:hover .cart-image {
+    transform: scale(1.05);
+  }
+  
+  .cart-details {
+    flex: 1;
+    text-align: left;
+  }
+  
+  .cart-details h3 {
+    font-size: 1.4rem;
+    color: #34495e;
+    margin-bottom: 8px;
+  }
+  
+  .cart-details p {
+    font-size: 1.1rem;
+    color: #7f8c8d;
+  }
+  
+  .cart-details strong {
+    color: #e74c3c;
+    font-size: 1.2rem;
+  }
+  
+  .return-home {
+    display: inline-block;
+    margin-top: 30px;
+    text-decoration: none;
+    background: #3498db;
+    color: white;
+    padding: 12px 25px;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    box-shadow: 0 4px 15px rgba(52, 152, 219, 0.4);
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .return-home:hover {
+    background: #2980b9;
+    box-shadow: 0 6px 20px rgba(52, 152, 219, 0.6);
+    transform: translateY(-2px);
+  }
+  
+  .return-home:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: 0.5s;
+  }
+  
+  .return-home:hover:before {
+    animation: shine 1s;
+  }
+  
+  @keyframes shine {
+    100% {
+      left: 100%;
+    }
+  }
+  
+  /* Empty cart message styling */
+  .cart-page > p {
+    font-size: 1.3rem;
+    color: #95a5a6;
+    margin: 40px 0;
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    animation: pulse 2s infinite;
+  }
+  
+  @keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.03); }
+    100% { transform: scale(1); }
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .cart-page {
+      padding: 20px;
+      margin: 20px 10px;
+    }
+    
+    .cart-item {
+      flex-direction: column;
+      text-align: center;
+    }
+    
+    .cart-image {
+      margin-right: 0;
+      margin-bottom: 15px;
+      width: 150px;
+      height: 100px;
+    }
+    
+    .cart-details {
+      text-align: center;
+    }
+  }
+  /* Bouton Supprimer */
+.remove-btn {
+  background: #e74c3c;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  font-size: 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+  margin-left: 15px;
+}
+
+.remove-btn:hover {
+  background: #c0392b;
+  transform: scale(1.05);
+}
+
+.remove-btn:active {
+  transform: scale(0.95);
+}
+
+/* Adaptation pour petits écrans */
+@media (max-width: 768px) {
+  .remove-btn {
+      width: 100%;
+      margin-top: 10px;
+  }
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////// 
+//src/pages/Home/Home.jsx
+import React, { useState } from 'react';
+import Header from '../../components/Header/Header';
+import SearchBar from '../../components/SearchBar/SearchBar';
+import CarList from '../../components/CarList/CarList';
+import Footer from '../../components/Footer/Footer'; // Importation du Footer
+import { carsData } from '../../data/cars';
+import './home.css';
+
+const Home = () => {
+  const [filteredCars, setFilteredCars] = useState(carsData);
+
+  const handleSearch = (query) => {
+    if (query.trim() === '') {
+      setFilteredCars(carsData);
+    } else {
+      const filtered = carsData.filter(car => 
+        car.name.toLowerCase().includes(query.toLowerCase()) ||
+        car.specs.toLowerCase().includes(query.toLowerCase())
+      );
+      setFilteredCars(filtered);
+    }
+  };
+
+  return (
+    <div className="home-page">
+      <Header />
+      <main className="main-content">
+        <SearchBar onSearch={handleSearch} />
+        <CarList cars={filteredCars} />
+      </main>
+      
+      <Footer /> {/* Ajout du Footer ici */}
+      
+    </div>
+    
+  );
+};
+
+export default Home;
+////////////////////////////////////////////////////////////////////////////////////////////////////
+/* src/pages/Home/Home.css */
+:root {
+  --primary-color: #00b0ff;
+  --secondary-color: #f0f9ff;
+  --text-color: #333;
+  --light-gray: #eee;
+  --white: #fff;
+  --border-radius: 8px;
+}
+
+.home-page {
+  min-height: 100vh;
+  background-color: var(--secondary-color);
+}
+
+.main-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Style pour les filtres simplifiés */
+.simple-filter-container {
+  background-color: var(--white);
+  border-radius: var(--border-radius);
+  padding: 15px;
+  margin-bottom: 25px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.category-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.category-button {
+  background-color: var(--light-gray);
+  color: #444;
+  padding: 6px 15px;
+  border-radius: 16px;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.category-button:hover, .category-button.active {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+/* Style pour la liste de voitures */
+.car-list-container {
+  padding: 20px 0;
+}
+
+.car-list-title {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: var(--text-color);
+}
+
+.car-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 20px;
+}
+
+/* Style pour les cartes de voitures */
+.car-card {
+  background-color: var(--white);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  cursor: pointer;
+}
+
+.car-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.car-card.selected {
+  border: 2px solid var(--primary-color);
+}
+
+.check-icon {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: var(--primary-color);
+  color: white;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+
+.car-image {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+}
+
+.car-details {
+  padding: 15px;
+}
+
+.car-name {
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+.car-specs {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+.car-price {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.price {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.price-period {
+  color: var(--primary-color);
+  font-size: 14px;
+}
+
+/* Responsive design */
+@media (max-width: 992px) {
+  .car-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .car-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .car-list-title {
+    font-size: 20px;
+    margin-bottom: 15px;
+  }
+  
+  .category-filters {
+    overflow-x: auto;
+    padding-bottom: 10px;
+    flex-wrap: nowrap;
+  }
+  
+  .category-button {
+    white-space: nowrap;
+  }
+}

@@ -1,0 +1,96 @@
+/* src/components/SearchBar/SearchBar.css */
+.search-container {
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+                url('/images/hero-bg.jpg') center/cover no-repeat;
+    padding: 5rem 2rem;
+    text-align: center;
+    color: white;
+    border-radius: 0.5rem;
+    margin-bottom: 3rem;
+  }
+  
+  .search-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+  
+  .search-subtitle {
+    font-size: 1.1rem;
+    margin-bottom: 2.5rem;
+    opacity: 0.9;
+  }
+  
+  .search-form {
+    display: flex;
+    max-width: 1000px;
+    margin: 0 auto;
+    background-color: white;
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+  
+  .form-group {
+    position: relative;
+    flex: 1;
+  }
+  
+  .input-icon {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #666;
+  }
+  
+  .search-input {
+    width: 100%;
+    padding: 1rem 1rem 1rem 2.5rem;
+    border: none;
+    border-radius: 0.25rem;
+    font-size: 1rem;
+  }
+  
+  .search-input:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(0, 98, 204, 0.2);
+  }
+  
+  .search-button {
+    background-color: #0062cc;
+    color: white;
+    border: none;
+    border-radius: 0.25rem;
+    padding: 0 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    transition: background-color 0.3s ease;
+  }
+  
+  .search-button:hover {
+    background-color: #0051a8;
+  }
+  
+  .button-icon {
+    margin-right: 0.5rem;
+  }
+  
+  @media (max-width: 992px) {
+    .search-form {
+      flex-direction: column;
+      gap: 0.5rem;
+      padding: 1rem;
+    }
+    
+    .form-group {
+      margin-bottom: 0.5rem;
+    }
+    
+    .search-title {
+      font-size: 2rem;
+    }
+  }
