@@ -2,7 +2,10 @@
 import React, { useContext } from "react";
 import { CartContext } from "../../context/CartContext";
 import { Link } from "react-router-dom";
-import "./Cart.css";
+import "./cart.css"; // Respecte la casse exacte !
+
+
+
 
 const Cart = () => {
   const { cartItems, removeFromCart } = useContext(CartContext); // ✅ Ajout de la fonction removeFromCart
