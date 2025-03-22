@@ -2,30 +2,17 @@
 import React, { useState, useContext } from 'react';
 import { FaCar, FaGasPump, FaUserFriends, FaCog, FaHeart, FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-import { CartContext } from '../../context/CartContext'; // Import du contexte panier
+import { CartContext } from '../../context/CartContext';
 import './carcard.css';
 
 const CarCard = ({ car }) => {
   const [showDescription, setShowDescription] = useState(false);
-  const [rentalDuration, setRentalDuration] = useState(1); // Durée par défaut 1 jour
-  const { addToCart } = useContext(CartContext); // Utilisation du contexte panier
-
-  const handleAddToCart = () => {
-    const rentalData = {
-      ...car,
-      duration: rentalDuration,
-      totalPrice: rentalDuration * car.price
-    };
-    addToCart(rentalData);
-  };
+  const { addToCart } = useContext(CartContext);
 
   return (
     <div className="car-card">
       <div className="car-image-container">
         <img src={car.image} alt={car.name} className="car-image" />
-        <button className="favorite-button">
-          <FaHeart />
-        </button>
       </div>
       
       <div className="car-details">
@@ -67,16 +54,20 @@ const CarCard = ({ car }) => {
           </div>
         )}
 
-
         <div className="car-footer">
           <div className="car-price">
             <span className="price">{car.price}€</span>
             <span className="price-period">/jour</span>
           </div>
-          
-          <Link to={`/car/${car.id}`} className="view-details-button">
-            Voir détails
-          </Link>
+
+          <div className="car-actions">
+            <Link to={`/car/${car.id}`} className="view-details-button">
+              Voir détails
+            </Link>
+            <button className="favorite-button">
+              <FaHeart />
+            </button>
+          </div>
         </div>
       </div>
     </div>
