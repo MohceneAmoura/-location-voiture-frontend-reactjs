@@ -3,7 +3,7 @@ import React, { useState, useContext } from 'react';
 import { FaCar, FaGasPump, FaUserFriends, FaCog, FaHeart, FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { CartContext } from '../../context/CartContext'; // Import du contexte panier
-import './carCard.css';
+import './carcard.css';
 
 const CarCard = ({ car }) => {
   const [showDescription, setShowDescription] = useState(false);
