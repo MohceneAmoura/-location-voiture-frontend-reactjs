@@ -5,174 +5,131 @@
 /* Style global pour la page */
 /* Style global pour la page */
 /* Style global pour la page */
+/* ======================= */
+/* 🎨 Style général */
+/* ======================= */
+
+/* Reset global styles */
 .add-car-page {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background: linear-gradient(to right, #6a3093, #a044ff);
-    padding: 40px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #1a2980, #26d0ce);
+  padding: 40px 20px;
+}
+
+.add-car-container {
+  background: white;
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+  width: 95%;
+  max-width: 1200px;
+}
+
+.add-car-container h2 {
+  text-align: center;
+  font-size: 2rem;
+  color: #1a2980;
+  margin-bottom: 30px;
+}
+
+.add-car-form-horizontal {
+  width: 100%;
+}
+
+.form-columns {
+  display: flex;
+  gap: 30px;
+}
+
+.form-column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+input, textarea {
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.file-input-container input {
+  border: 2px dashed #26d0ce;
+  background-color: #f0f6f6;
+}
+
+.image-preview-container {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.image-preview {
+  max-width: 100%;
+  max-height: 250px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.form-actions {
+  display: flex;
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.submit-button, .return-button {
+  flex: 1;
+  padding: 12px;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.submit-button {
+  background-color: #ff416c;
+  color: white;
+}
+
+.return-button {
+  background-color: #ddd;
+  color: black;
+}
+
+.submit-button:hover {
+  background-color: #e12d5c;
+}
+
+.return-button:hover {
+  background-color: #bbb;
+}
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+  .form-columns {
+    flex-direction: column;
+    gap: 20px;
   }
-  
-  /* Conteneur du formulaire */
+
+  .form-actions {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 600px) {
   .add-car-container {
-    background: white;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
-    width: 90%;
-    max-width: 600px;
-    animation: fadeIn 0.6s ease-in-out;
+    padding: 20px;
   }
-  
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(-20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  
-  .add-car-container h2 {
-    text-align: center;
-    margin-bottom: 30px;
-    color: #333;
-    font-size: 28px;
-    position: relative;
-    padding-bottom: 10px;
-  }
-  
-  .add-car-container h2::after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 80px;
-    height: 3px;
-    background: #a044ff;
-  }
-  
-  /* Style du formulaire */
-  .add-car-form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-  }
-  
-  .form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
-  
-  .form-group label {
-    font-weight: 500;
-    color: #555;
-    font-size: 14px;
-  }
-  
-  .form-row {
-    display: flex;
-    gap: 15px;
-  }
-  
-  .form-group.half {
-    flex: 1;
-  }
-  
-  /* Style des inputs */
-  .add-car-form input,
-  .add-car-form textarea {
-    width: 100%;
-    padding: 12px 15px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    font-size: 14px;
-    transition: all 0.3s ease;
-    background-color: #f9f9f9;
-  }
-  
-  .add-car-form input:focus,
-  .add-car-form textarea:focus {
-    border-color: #a044ff;
-    box-shadow: 0 0 8px rgba(160, 68, 255, 0.3);
-    outline: none;
-    background-color: #fff;
-  }
-  
-  /* Style du conteneur d'upload de fichier */
-  .file-input-container {
-    margin-bottom: 5px;
-  }
-  
-  .file-input-container input[type="file"] {
-    padding: 8px;
-    background-color: #f0f0f0;
-  }
-  
-  /* Style de l'aperçu d'image */
-  .image-preview-container {
-    display: flex;
-    justify-content: center;
-    margin: 10px 0;
-  }
-  
-  .image-preview {
-    max-width: 100%;
-    max-height: 200px;
-    object-fit: contain;
-    border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Style des boutons */
-  .submit-button, .return-button {
-    padding: 14px;
-    font-size: 16px;
-    font-weight: 600;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-align: center;
-  }
-  
-  .submit-button {
-    background: #ff3e81;
-    color: white;
-    margin-top: 10px;
-  }
-  
-  .return-button {
-    background: #f0f0f0;
-    color: #333;
-    margin-top: 10px;
-  }
-  
-  .submit-button:hover {
-    background: #e63572;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 10px rgba(255, 62, 129, 0.3);
-  }
-  
-  .return-button:hover {
-    background: #e0e0e0;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Responsive */
-  @media (max-width: 600px) {
-    .form-row {
-      flex-direction: column;
-      gap: 15px;
-    }
-    
-    .add-car-container {
-      padding: 20px;
-    }
-  }
+}

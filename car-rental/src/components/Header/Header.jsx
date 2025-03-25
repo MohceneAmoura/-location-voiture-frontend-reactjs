@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { FaBars, FaTimes, FaShoppingCart } from "react-icons/fa";
 import { CartContext } from "../../context/CartContext";
 import "./header.css";
-import logo from "../../assets/logo.svg";
+import logo from "../../assets/logo1.svg";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);

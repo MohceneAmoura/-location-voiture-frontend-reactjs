@@ -24,7 +24,7 @@ const Login = () => {
         <div className="login-card">
           <div className="login-header">
             <h1>Connexion</h1>
-            <p>Bienvenue sur AutoRent, louez votre véhicule en quelques clics</p>
+            <p>Bienvenue sur AutoLibre 🚗✨, louez votre véhicule en quelques clics</p>
           </div>
 
           <form onSubmit={handleSubmit} className="login-form">

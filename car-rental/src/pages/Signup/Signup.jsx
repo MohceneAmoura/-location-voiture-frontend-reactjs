@@ -38,7 +38,7 @@ const Signup = () => {
         <div className="signup-card">
           <div className="signup-header">
             <h1>Créer un compte</h1>
-            <p>Rejoignez AutoRent et profitez de nos offres exclusives</p>
+            <p>Rejoignez AutoLibre 🚗✨ et profitez de nos offres exclusives</p>
           </div>
 
           <form onSubmit={handleSubmit} className="signup-form">
