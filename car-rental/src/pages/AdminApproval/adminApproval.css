@@ -1,108 +1,81 @@
 /*C:\Users\aimen\car-rental\src\pages\AdminApproval\adminApproval.css*/
-/* CSS spécifique pour la page AdminApproval */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+/* CSS minimaliste pour AdminApproval */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
 
-/* Appliquer uniquement à AdminApproval */
 .admin-approval-page {
   font-family: 'Poppins', sans-serif;
-  background: rgba(255, 255, 255, 0.95);
   max-width: 1200px;
   margin: 30px auto;
-  padding: 30px;
+  padding: 25px;
   border-radius: 12px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-  text-align: center;
-  animation: fadeIn 0.8s ease-in-out;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  background: white;
 }
 
 .admin-approval-page h2 {
   color: #1a2980;
   font-size: 24px;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
+  text-align: center;
 }
 
 .admin-approval-page .car-list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-  gap: 25px;
-  margin: 40px 0;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 20px;
+  margin: 25px 0;
 }
 
 .admin-approval-page .car-card {
   background: white;
-  border-radius: 12px;
-  padding: 25px;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  animation: slideUp 0.6s ease-in-out;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s;
 }
 
 .admin-approval-page .car-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
-}
-
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  transform: translateY(-5px);
 }
 
 .admin-approval-page .car-image {
   width: 100%;
-  height: 220px;
+  height: 180px;
   object-fit: cover;
-  border-radius: 10px;
-  margin-bottom: 15px;
 }
 
 .admin-approval-page .car-details {
-  font-size: 16px;
-  color: #333;
-  margin-bottom: 15px;
+  padding: 15px;
+  font-size: 14px;
+  color: #444;
 }
 
 .admin-approval-page .car-details h3 {
   margin: 0 0 10px 0;
   color: #1a2980;
-  font-size: 20px;
+  font-size: 18px;
+}
+
+.admin-approval-page .car-details p {
+  margin: 5px 0;
 }
 
 .admin-approval-page .approval-actions {
   display: flex;
-  gap: 15px;
-  justify-content: center;
-  margin-top: 15px;
+  gap: 10px;
+  padding: 0 15px 15px;
 }
 
 .admin-approval-page .approve-btn, 
 .admin-approval-page .reject-btn, 
 .admin-approval-page .back-btn {
-  padding: 12px 18px;
+  padding: 10px 16px;
   border: none;
-  border-radius: 6px;
+  border-radius: 5px;
   cursor: pointer;
-  font-weight: bold;
-  transition: all 0.3s ease-in-out;
-  position: relative;
-  overflow: hidden;
-  font-size: 16px;
+  font-weight: 500;
+  font-size: 14px;
+  flex: 1;
 }
 
 .admin-approval-page .approve-btn {
@@ -110,35 +83,29 @@
   color: white;
 }
 
-.admin-approval-page .approve-btn:hover {
-  background-color: #27ae60;
-}
-
 .admin-approval-page .reject-btn {
   background-color: #e74c3c;
   color: white;
 }
 
-.admin-approval-page .reject-btn:hover {
-  background-color: #c0392b;
-}
-
 .admin-approval-page .back-btn {
   background-color: #1a2980;
   color: white;
+  margin: 20px auto;
   display: block;
-  text-align: center;
   width: fit-content;
-  margin: 30px auto 0;
 }
 
-.admin-approval-page .back-btn:hover {
-  background-color: #0d1b50;
+.admin-approval-page p:not([class]) {
+  text-align: center;
+  padding: 20px;
+  color: #666;
+  background: #f8f9fa;
+  border-radius: 8px;
 }
 
-/* Effet clic sur bouton */
-.admin-approval-page .approve-btn:active, 
-.admin-approval-page .reject-btn:active, 
-.admin-approval-page .back-btn:active {
-  transform: scale(0.95);
+@media (max-width: 768px) {
+  .admin-approval-page .car-list {
+    grid-template-columns: 1fr;
+  }
 }
