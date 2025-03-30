@@ -9,6 +9,7 @@ import Signup from "./pages/Signup/Signup";
 import CarDetails from "./pages/CarDetails/CarDetails";
 import Cart from "./pages/Cart/Cart";
 import AddCar from "./pages/AddCar/AddCar"; // Ajout de la page d'ajout de voiture
+import AdminApproval from './pages/AdminApproval/AdminApproval';
 
 const App = () => {
   return (
@@ -23,6 +24,7 @@ const App = () => {
           <Route path="/car/:id" element={<CarDetails />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/add-car" element={<AddCar />} />
+          <Route path="/admin/approval" element={<AdminApproval />} />          
         </Routes>
       </CartProvider>
     </Router>

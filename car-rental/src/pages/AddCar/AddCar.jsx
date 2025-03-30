@@ -14,6 +14,7 @@ const AddCar = () => {
     transmission: "",
     type: "",
     description: "",
+    status: "pending" // Nouveau champ pour le statut
   });
 
   const [previewImage, setPreviewImage] = useState(null);
@@ -49,10 +50,13 @@ const AddCar = () => {
       return;
     }
 
-    const existingCars = JSON.parse(localStorage.getItem("userCars")) || [];
-    localStorage.setItem("userCars", JSON.stringify([...existingCars, car]));
+    // Récupérer les voitures en attente
+    const pendingCars = JSON.parse(localStorage.getItem("pendingCars")) || [];
+    
+    // Ajouter la nouvelle voiture à la liste d'attente
+    localStorage.setItem("pendingCars", JSON.stringify([...pendingCars, car]));
 
-    alert("Votre voiture a été ajoutée avec succès !");
+    alert("Votre voiture a été soumise pour approbation. Un administrateur la validera bientôt.");
     navigate("/vehicules");
   };
 
@@ -60,6 +64,7 @@ const AddCar = () => {
     <div className="add-car-page">
       <div className="add-car-container">
         <h2>Ajoutez ma voiture</h2>
+        <p className="approval-notice">Votre voiture sera examinée par un administrateur avant d'être publiée.</p>
         
         <form onSubmit={handleSubmit} className="add-car-form-horizontal">
           <div className="form-columns">

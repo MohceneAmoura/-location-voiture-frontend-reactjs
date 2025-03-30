@@ -37,9 +37,13 @@ const Header = () => {
           <FaShoppingCart className="cart-img" />
           {cartItems.length > 0 && <span className="cart-count">{cartItems.length}</span>}
         </Link>
+
+        {/* 🔹 Ajout du lien vers l’espace admin */}
+        <Link to="/admin/approval" className="nav-button admin-link">Espace Admin</Link>
       </nav>
     </header>
   );
 };
 
 export default Header;
+

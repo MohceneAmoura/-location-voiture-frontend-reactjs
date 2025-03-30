@@ -1,3 +1,4 @@
+//C:\Users\aimen\car-rental\src\pages\Vehicule\Vehicule.jsx
 import React, { useState, useEffect } from 'react';
 import Header from '../../components/Header/Header';
 import SearchBar from '../../components/SearchBar/SearchBar';
@@ -11,12 +12,13 @@ const Vehicule = () => {
   const [filteredCars, setFilteredCars] = useState([]);
 
   // Charger les voitures au montage du composant
-  useEffect(() => {
-    const userCars = JSON.parse(localStorage.getItem("userCars")) || [];
-    const combinedCars = [...carsData, ...userCars];
-    setAllCars(combinedCars);
-    setFilteredCars(combinedCars);
-  }, []);
+// ... dans Vehicule.jsx
+useEffect(() => {
+  const userCars = JSON.parse(localStorage.getItem("userCars")) || []; // Seules les voitures approuvées
+  const combinedCars = [...carsData, ...userCars];
+  setAllCars(combinedCars);
+  setFilteredCars(combinedCars);
+}, []);
 
   // Gérer la recherche des voitures
   const handleSearch = (query) => {

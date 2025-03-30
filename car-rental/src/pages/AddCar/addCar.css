@@ -1,15 +1,5 @@
 /*C:\Users\aimen\car-rental\src\pages\AddCar\addCar.css*/
-/* Reset global styles */
-/* Reset global styles */
-/* Style général pour la page d'ajout de voiture */
-/* Style global pour la page */
-/* Style global pour la page */
-/* Style global pour la page */
-/* ======================= */
-/* 🎨 Style général */
-/* ======================= */
 
-/* Reset global styles */
 .add-car-page {
   display: flex;
   justify-content: center;
@@ -114,6 +104,12 @@ input, textarea {
 
 .return-button:hover {
   background-color: #bbb;
+}
+.approval-notice {
+  text-align: center;
+  color: #ff416c;
+  margin-bottom: 20px;
+  font-style: italic;
 }
 
 /* Responsive adjustments */
