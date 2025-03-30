@@ -65,7 +65,7 @@ export const carsData = [
       name: "Toyota Corolla",
       category: "Confort",
       price: 55,
-      image: "/images/cars/6.jpg",
+      image: "/images/cars/8.jpg",
       seats: 5,
       fuelType: "Hybride",
       transmission: "Automatique",
