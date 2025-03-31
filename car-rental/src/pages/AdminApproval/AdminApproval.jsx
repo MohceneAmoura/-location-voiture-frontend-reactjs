@@ -5,16 +5,13 @@ import './adminApproval.css';
 
 const AdminApproval = () => {
   const [pendingCars, setPendingCars] = useState([]);
-  const [carList, setCarList] = useState([]);
+  const [expandedDescriptions, setExpandedDescriptions] = useState({});
   const navigate = useNavigate();
 
   useEffect(() => {
     // Récupérer les voitures en attente et la liste des voitures approuvées depuis le localStorage
     const cars = JSON.parse(localStorage.getItem("pendingCars")) || [];
     setPendingCars(cars);
-
-    const approvedCars = JSON.parse(localStorage.getItem("carList")) || [];
-    setCarList(approvedCars);
   }, []);
 
   const approveCar = (index) => {
@@ -40,9 +37,16 @@ const AdminApproval = () => {
     setPendingCars(updatedPendingCars);
   };
 
+  const toggleDescription = (index) => {
+    setExpandedDescriptions(prev => ({
+      ...prev,
+      [index]: !prev[index]
+    }));
+  };
+
   return (
     <div className="admin-approval-page">
-      <h2>Validation des voitures</h2>
+    <h2 className="animated-title">Validation des voitures</h2>
       {pendingCars.length === 0 ? (
         <p>Aucune voiture en attente de validation.</p>
       ) : (
@@ -51,15 +55,31 @@ const AdminApproval = () => {
             <div key={index} className="car-card">
               {car.image && <img src={car.image} alt={car.name} className="car-image" />}
               <div className="car-details">
-                <h3>{car.name}</h3>
-                <p>Catégorie: {car.category}</p>
-                <p>Prix: {car.price}€/jour</p>
-                <p>Places: {car.seats}</p>
-                <p>Carburant: {car.fuelType}</p>
-                <p>Transmission: {car.transmission}</p>
-                <p>Type: {car.type}</p>
-                <p>Description: {car.description}</p>
+                <h3 data-category={car.category}>{car.name}</h3>
+                <p>{car.seats} places</p>
+                <p>{car.fuelType}</p>
+                <p>{car.transmission}</p>
+                <p>{car.type}</p>
               </div>
+              
+              <button className="description-toggle" onClick={() => toggleDescription(index)}>
+                Voir la description
+              </button>
+              
+              {expandedDescriptions[index] && (
+                <div className="car-description">
+                  <p>{car.description}</p>
+                </div>
+              )}
+              
+              <div className="divider"></div>
+              
+              <div className="price-section">
+                <div className="price-tag">
+                  {car.price}€<span className="per-day">/jour</span>
+                </div>
+              </div>
+              
               <div className="approval-actions">
                 <button onClick={() => approveCar(index)} className="approve-btn">Approuver</button>
                 <button onClick={() => rejectCar(index)} className="reject-btn">Rejeter</button>

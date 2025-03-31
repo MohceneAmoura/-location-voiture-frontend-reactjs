@@ -39,7 +39,7 @@ const Header = () => {
         </Link>
 
         {/* 🔹 Ajout du lien vers l’espace admin */}
-        <Link to="/admin/approval" className="nav-button admin-link">Espace Admin</Link>
+        <Link to="/admin/approval" className="nav-button admin-link">Admin</Link>
       </nav>
     </header>
   );
