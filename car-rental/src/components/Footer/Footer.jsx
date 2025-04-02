@@ -1,10 +1,8 @@
 // src/components/Footer/Footer.jsx
+// src/components/Footer/Footer.jsx
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { 
-  FaFacebook, FaTwitter, FaInstagram, FaLinkedin, 
-  FaPhoneAlt, FaEnvelope, FaMapMarkerAlt 
-} from 'react-icons/fa';
+import { FaCar, FaPhoneAlt, FaEnvelope, FaMapMarkerAlt, FaShieldAlt } from 'react-icons/fa';
 import './footer.css';
 import logo from '../../assets/logo1.svg';
 
@@ -12,93 +10,96 @@ const Footer = () => {
   return (
     <footer className="footer">
       <div className="footer-container">
-        <div className="footer-content">
-          {/* Section Logo & Description */}
-          <div className="footer-section logo-section">
-            <img src={logo} alt="AutoRent" className="footer-logo" />
-            <p className="company-description">
-              AutoRent propose des solutions de location de véhicules adaptées à tous vos besoins, 
-              avec un service client de qualité et des tarifs compétitifs.
+        {/* Section Principale */}
+        <div className="footer-grid">
+          {/* Colonne Logo & Description */}
+          <div className="footer-column">
+            <img src={logo} alt="AutoLibre" className="footer-logo" />
+            <p className="footer-description">
+            AutoLibre 🚗✨- Votre partenaire de confiance pour la location de véhicules. 
+              Large choix de voitures à des tarifs compétitifs avec assistance 24/7.
             </p>
-            <div className="social-links">
-              {[
-                { Icon: FaFacebook, link: "https://facebook.com", title: "Facebook" },
-                { Icon: FaTwitter, link: "https://twitter.com", title: "Twitter" },
-                { Icon: FaInstagram, link: "https://instagram.com", title: "Instagram" },
-                { Icon: FaLinkedin, link: "https://linkedin.com", title: "LinkedIn" }
-              ].map(({ Icon, link, title }) => (
-                <a 
-                  key={title}
-                  href={link} 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  title={title} 
-                  className="social-link"
-                >
-                  <Icon />
-                </a>
-              ))}
+            <div className="trust-badges">
+              <div className="trust-badge">
+                <FaShieldAlt className="badge-icon" />
+                <span>Assurance incluse</span>
+              </div>
+              <div className="trust-badge">
+                <FaCar className="badge-icon" />
+                <span>Véhicules récents</span>
+              </div>
             </div>
           </div>
 
-          {/* Section Liens Rapides */}
-          <nav className="footer-section quick-links">
-            <h3 className="footer-title">Liens rapides</h3>
+          {/* Colonne Locations */}
+          <div className="footer-column">
+            <h3 className="footer-title">Nos locations</h3>
             <ul className="footer-links">
-              {[
-                { to: "/", label: "Accueil" },
-                { to: "/vehicules", label: "Véhicules" },
-                { to: "/offres", label: "Offres spéciales" },
-                { to: "/faq", label: "FAQ" },
-                { to: "/contact", label: "Contact" }
-              ].map(({ to, label }) => (
-                <li key={to}><Link to={to}>{label}</Link></li>
-              ))}
+              <li><Link to="/location-ville">Location en ville</Link></li>
+              <li><Link to="/location-aeroport">Location aéroport</Link></li>
+              <li><Link to="/location-longue-duree">Longue durée</Link></li>
+              <li><Link to="/voiture-haut-gamme">Voitures haut de gamme</Link></li>
+              <li><Link to="/utilitaire">Véhicules utilitaires</Link></li>
             </ul>
-          </nav>
+          </div>
 
-          {/* Section Services */}
-          <nav className="footer-section services">
-            <h3 className="footer-title">Nos services</h3>
+          {/* Colonne Assistance */}
+          <div className="footer-column">
+            <h3 className="footer-title">Assistance</h3>
             <ul className="footer-links">
-              {[
-                { to: "/location-courte-duree", label: "Location courte durée" },
-                { to: "/location-longue-duree", label: "Location longue durée" },
-                { to: "/transfert-aeroport", label: "Transfert aéroport" },
-                { to: "/location-avec-chauffeur", label: "Location avec chauffeur" }
-              ].map(({ to, label }) => (
-                <li key={to}><Link to={to}>{label}</Link></li>
-              ))}
+              <li><Link to="/Contact">Contact</Link></li>
+              <li><Link to="/assurance">Options d'assurance</Link></li>
+              <li><Link to="/conditions-location">Conditions de location</Link></li>
+              <li><Link to="/vehicules">Voir les voitures</Link></li>
+              <li><Link to="/depannage">Service de dépannage</Link></li>
             </ul>
-          </nav>
+          </div>
 
-          {/* Section Contact */}
-          <div className="footer-section contact">
-            <h3 className="footer-title">Contact</h3>
+          {/* Colonne Contact */}
+          <div className="footer-column contact-column">
+            <h3 className="footer-title">Contact rapide</h3>
             <ul className="contact-info">
-              {[
-                { Icon: FaPhoneAlt, content: "+33 1 23 45 67 89", type: "tel" },
-                { Icon: FaEnvelope, content: "contact@autorent.com", type: "mailto" },
-                { Icon: FaMapMarkerAlt, content: "123 Avenue des Champs-Élysées, Paris", type: "address" }
-              ].map(({ Icon, content, type }) => (
-                <li key={content}>
-                  <Icon />
-                  {type !== "address" ? (
-                    <a href={`${type}:${content}`}>{content}</a>
-                  ) : (
-                    <span>{content}</span>
-                  )}
-                </li>
-              ))}
+              <li>
+                <FaPhoneAlt className="contact-icon" />
+                <a href="tel:+213778120763">+213778120763</a>
+              </li>
+              <li>
+                <FaEnvelope className="contact-icon" />
+                <a href="makhloufachraf757@gmail.com">makhloufachraf757@gmail.com</a>
+              </li>
+              <li>
+                <FaMapMarkerAlt className="contact-icon" />
+                <span>Algérie • Guelma • Ben djerrah</span>
+              </li>
             </ul>
+            <div className="opening-hours">
+              <p>Ouvert 7j/7 de 8h à 22h</p>
+              <p>Assistance 24h/24 pour urgences</p>
+            </div>
           </div>
         </div>
 
+        {/* Bas de footer */}
         <div className="footer-bottom">
-          <p>&copy; {new Date().getFullYear()} AutoRent. Tous droits réservés.</p>
-          <div className="footer-legal-links">
+          <div className="payment-methods">
+            <span>Moyens de paiement :</span>
+            <div className="payment-icons">
+              <img src="/images/payment/Visa.png" alt="Visa" className="payment-icon" loading="lazy" />
+              <img src="/images/payment/mastercard.png" alt="Mastercard" className="payment-icon" loading="lazy" />
+              <img src="/images/payment/paypal.png" alt="PayPal" className="payment-icon" loading="lazy" />
+              <img src="/images/payment/cb.png" alt="Carte Bancaire" className="payment-icon" loading="lazy" />
+            </div>
+          </div>
+          
+          <div className="legal-links">
             <Link to="/mentions-legales">Mentions légales</Link>
-            <Link to="/politique-confidentialite">Politique de confidentialité</Link>
+            <Link to="/cgv">Conditions générales</Link>
+            <Link to="/politique-confidentialite">Confidentialité</Link>
+            <Link to="/cookies">Cookies</Link>
+          </div>
+          
+          <div className="copyright">
+            © {new Date().getFullYear()} AutoLibre 🚗✨ - Tous droits réservés
           </div>
         </div>
       </div>

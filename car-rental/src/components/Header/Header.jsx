@@ -25,8 +25,8 @@ const Header = () => {
 
       {/* Navigation principale */}
       <nav className={`navigation ${isMenuOpen ? "show" : ""}`}>
+        <Link to="/" className="nav-link">Accueil</Link> {/* Lien vers la page d'accueil */}
         <Link to="/vehicules">Véhicules</Link>
-        <Link to="/offres">Offres spéciales</Link>
         <Link to="/contact">Contact</Link>
         <Link to="/add-car" className="nav-button">Louer ma voiture</Link>
         <Link to="/login" className="nav-button">Se connecter</Link>

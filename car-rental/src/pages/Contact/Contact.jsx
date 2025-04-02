@@ -95,7 +95,7 @@ const Contact = () => {
             <FaMapMarkerAlt className="contact-icon" />
             <div>
               <span className="contact-label">Adresse:</span> 
-              198 Rue de la Location, 75008 Paris
+              Algérie • Guelma • Ben djerrah
             </div>
           </div>
 
@@ -103,7 +103,7 @@ const Contact = () => {
             <FaPhone className="contact-icon" />
             <div>
               <span className="contact-label">Téléphone:</span> 
-              +33 1 23 45 67 89
+              +213778120763
             </div>
           </div>
 
@@ -111,7 +111,7 @@ const Contact = () => {
             <FaEnvelope className="contact-icon" />
             <div>
               <span className="contact-label">Email:</span> 
-              contact@locationvoiture.fr
+              makhloufachraf757@gmail.com
             </div>
           </div>
 
@@ -119,7 +119,7 @@ const Contact = () => {
             <FaGlobe className="contact-icon" />
             <div>
               <span className="contact-label">Site web:</span> 
-              www.locationvoiture.fr
+              https://car-rental-beta-ashen.vercel.app/
             </div>
           </div>
         </div>
