@@ -1,19 +1,49 @@
 /*C:\Users\aimen\car-rental\src\pages\CarDetails\carDetails.css*/
+/* C:\Users\aimen\car-rental\src\pages\CarDetails\carDetails.css */
+
+.car-details-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, rgba(245, 247, 250, 0.95) 0%, rgba(26, 41, 128, 0.95) 100%),
+      url('https://images.unsplash.com/photo-1489824904134-891ab64532f1?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80') no-repeat center center;
+  background-size: cover;
+  background-blend-mode: overlay;
+  padding: 40px 20px;
+  font-family: 'Montserrat', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  animation: gradientBG 15s ease infinite;
+}
+
+@keyframes gradientBG {
+  0% {
+      background-position: 0% 50%;
+  }
+  50% {
+      background-position: 100% 50%;
+  }
+  100% {
+      background-position: 0% 50%;
+  }
+}
+
 .car-details-container {
   max-width: 800px;
   margin: 20px auto;
-  padding: 20px;
-  background: white;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  padding: 40px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   text-align: center;
 }
 
 .car-title {
-  font-size: 26px;
-  font-weight: bold;
+  font-size: 2.4rem;
+  font-weight: 800;
   color: #333;
-  margin-bottom: 15px;
+  margin-bottom: 25px;
 }
 
 .car-image-large {
@@ -21,91 +51,74 @@
   max-height: 400px;
   object-fit: cover;
   border-radius: 10px;
-  border: 2px solid #ddd;
+  margin-bottom: 30px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
-.car-info {
+.car-specifications {
   display: flex;
   justify-content: center;
   gap: 20px;
-  margin: 20px 0;
+  margin-bottom: 30px;
   flex-wrap: wrap;
 }
 
-.info-block {
+.spec-item {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-size: 16px;
+  gap: 10px;
+  font-size: 1rem;
   color: #444;
   background: #f8f9fa;
-  padding: 8px 15px;
+  padding: 12px 20px;
   border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+}
+
+.spec-icon {
+  font-size: 1.2rem;
+  color: #007bff;
 }
 
 .car-description {
-  font-size: 18px;
+  font-size: 1.1rem;
   color: #555;
-  margin-bottom: 20px;
-  line-height: 1.6;
+  margin-bottom: 30px;
+  line-height: 1.7;
+  text-align: left;
 }
 
-.car-price {
-  font-size: 22px;
-  font-weight: bold;
+.rental-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.price-section {
+  font-size: 1.3rem;
+  font-weight: 600;
   color: #007bff;
-  margin-bottom: 15px;
 }
 
-.not-found {
-  text-align: center;
-  font-size: 24px;
-  color: red;
+.duration-section {
+  display: flex;
+  align-items: center;
 }
 
-/* ✅ Amélioration des boutons */
-button {
-  font-size: 16px;
-  font-weight: bold;
-  padding: 12px 25px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.3s ease-in-out;
+.duration-section label {
+  font-size: 1rem;
+  margin-right: 15px;
+  color: #333;
 }
 
-.back-button {
-  background-color: #007bff;
-  color: white;
-  margin-left: 10px;
-}
-
-.back-button:hover {
-  background-color: #0056b3;
-  transform: scale(1.05);
-}
-
-.choose-button {
-  background-color: #28a745;
-  color: white;
-  margin-left: 10px;
-}
-
-.choose-button:hover {
-  background-color: #218838;
-  transform: scale(1.05);
-}
-
-/* ✅ Style amélioré pour l'input */
 .duration-input {
   width: 60px;
-  padding: 8px;
-  font-size: 16px;
+  padding: 10px;
+  font-size: 1rem;
   text-align: center;
   border: 2px solid #ccc;
   border-radius: 5px;
-  margin-right: 10px;
   transition: 0.3s;
 }
 
@@ -115,10 +128,48 @@ button {
   box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
 
-/* ✅ Conteneur des boutons pour un meilleur alignement */
 .button-container {
   display: flex;
   justify-content: center;
-  gap: 15px;
-  margin-top: 20px;
+  gap: 20px;
+  margin-top: 30px;
+}
+
+button {
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 14px 30px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.choose-button {
+  background-color: #28a745;
+  color: white;
+}
+
+.choose-button:hover {
+  background-color: #218838;
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(40, 167, 69, 0.3);
+}
+
+.back-button {
+  background-color: #007bff;
+  color: white;
+}
+
+.back-button:hover {
+  background-color: #0056b3;
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
+}
+
+.not-found {
+  text-align: center;
+  font-size: 1.5rem;
+  color: red;
+  margin-top: 50px;
 }

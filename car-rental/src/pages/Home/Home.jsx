@@ -57,11 +57,13 @@ const Home = () => {
       <Header />
       
       {/* Hero Section */}
-      <section className="hero-section">
-        <div className="hero-video-overlay"></div>
-        <video autoPlay muted loop className="hero-video">
-          <source src="/assets/videos/hero-video.mp4" type="video/mp4" />
-        </video>
+      <section className="hero-section" style={{
+        backgroundImage: `url('/images/Background/background2.png')`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat'
+      }}>
+        <div className="hero-overlay"></div>
         <div className="hero-container">
           <div className="hero-content">
             <h1>Location Éco-Responsable de Véhicules Premium</h1>
@@ -225,7 +227,7 @@ const Home = () => {
                 "Chez <strong>AutoLibre 🚗✨</strong>, nous croyons qu'une location de voiture peut être à la fois luxueuse et responsable."
               </blockquote>
               <p>
-                Fondée en 2025 par Achref Makhlouf, notre entreprise s'engage à révolutionner l'industrie de la location automobile avec une approche centrée sur le client et l'environnement.
+                Fondée en 2024 par Achref Makhlouf, notre entreprise s'engage à révolutionner l'industrie de la location automobile avec une approche centrée sur le client et l'environnement.
               </p>
               <ul className="about-features">
                 <li>
@@ -299,7 +301,7 @@ const Home = () => {
                 <img src="/images/client1.jpg" alt="Client" />
                 <div>
                   <h4>Marie Dupont</h4>
-                  <span>Client depuis 2020</span>
+                  <span>Client depuis Janvier 2025</span>
                 </div>
               </div>
             </div>

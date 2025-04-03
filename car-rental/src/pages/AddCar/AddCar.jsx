@@ -14,7 +14,7 @@ const AddCar = () => {
     transmission: "",
     type: "",
     description: "",
-    status: "pending" // Nouveau champ pour le statut
+    status: "pending"
   });
 
   const [previewImage, setPreviewImage] = useState(null);
@@ -63,70 +63,174 @@ const AddCar = () => {
   return (
     <div className="add-car-page">
       <div className="add-car-container">
-        <h2>Ajoutez ma voiture</h2>
-        <p className="approval-notice">Votre voiture sera examinée par un administrateur avant d'être publiée.</p>
+        <div className="add-car-header">
+          <div className="header-icon">🚗</div>
+          <h2>Ajoutez ma voiture</h2>
+          <p className="header-subtitle">Proposez votre véhicule à la location</p>
+        </div>
+        
+        <div className="approval-notice">
+          <span className="notice-icon">ℹ️</span>
+          <p>Votre voiture sera examinée par un administrateur avant d'être publiée sur notre plateforme.</p>
+        </div>
         
         <form onSubmit={handleSubmit} className="add-car-form-horizontal">
           <div className="form-columns">
             <div className="form-column">
               <div className="form-group">
-                <label htmlFor="name">Nom de la voiture</label>
-                <input type="text" id="name" name="name" placeholder="Ex: Renault Clio" onChange={handleChange} required />
+                <label htmlFor="name">
+                  <span>Nom de la voiture</span>
+                </label>
+                <input 
+                  type="text" 
+                  id="name" 
+                  name="name" 
+                  placeholder="Ex: Renault Clio" 
+                  onChange={handleChange} 
+                  required 
+                />
               </div>
 
               <div className="form-group">
-                <label htmlFor="category">Catégorie</label>
-                <input type="text" id="category" name="category" placeholder="Ex: Économique, Luxe" onChange={handleChange} required />
+                <label htmlFor="category">
+                  <span>Catégorie</span>
+                </label>
+                <input 
+                  type="text" 
+                  id="category" 
+                  name="category" 
+                  placeholder="Ex: Économique, Luxe" 
+                  onChange={handleChange} 
+                  required 
+                />
               </div>
 
+              <div className="form-group price-input-container">
+    <label htmlFor="price">
+        <span>Prix par jour</span>
+    </label>
+    <div className="price-input-wrapper"> {/* New wrapper div */}
+        <input 
+            type="number" 
+            id="price" 
+            name="price" 
+            placeholder="50" 
+            onChange={handleChange} 
+            required 
+        />
+        <span className="price-suffix">€ / jour</span> {/* Changed suffix */}
+    </div>
+</div>
               <div className="form-group">
-                <label htmlFor="price">Prix par jour (€)</label>
-                <input type="number" id="price" name="price" placeholder="Ex: 50" onChange={handleChange} required />
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="seats">Nombre de places</label>
-                <input type="number" id="seats" name="seats" placeholder="Ex: 5" onChange={handleChange} required />
+                <label htmlFor="seats">
+                  <span>Nombre de places</span>
+                </label>
+                <input 
+                  type="number" 
+                  id="seats" 
+                  name="seats" 
+                  placeholder="Ex: 5" 
+                  onChange={handleChange} 
+                  required 
+                />
               </div>
             </div>
 
             <div className="form-column">
               <div className="form-group file-input-container">
                 <label htmlFor="car-image">Image de la voiture</label>
-                <input id="car-image" type="file" accept="image/*" onChange={handleImageChange} required />
-              </div>
-
-              {previewImage && (
-                <div className="image-preview-container">
-                  <img src={previewImage} alt="Aperçu" className="image-preview" />
+                <input 
+                  id="car-image" 
+                  type="file" 
+                  accept="image/*" 
+                  onChange={handleImageChange} 
+                  required 
+                  style={{ display: 'none' }}
+                />
+                <div 
+                  className="file-upload-box" 
+                  onClick={() => document.getElementById('car-image').click()}
+                >
+                  {previewImage ? (
+                    <img src={previewImage} alt="Aperçu" className="image-preview" />
+                  ) : (
+                    <div className="upload-placeholder">
+                      <span>Cliquez pour ajouter une image</span>
+                      <small>JPEG, PNG ou JPG (max 5Mo)</small>
+                    </div>
+                  )}
                 </div>
-              )}
-
-              <div className="form-group">
-                <label htmlFor="fuelType">Type de carburant</label>
-                <input type="text" id="fuelType" name="fuelType" placeholder="Ex: Essence, Diesel" onChange={handleChange} required />
               </div>
 
               <div className="form-group">
-                <label htmlFor="transmission">Transmission</label>
-                <input type="text" id="transmission" name="transmission" placeholder="Ex: Manuelle, Automatique" onChange={handleChange} required />
+                <label htmlFor="fuelType">
+                  <span>Type de carburant</span>
+                </label>
+                <input 
+                  type="text" 
+                  id="fuelType" 
+                  name="fuelType" 
+                  placeholder="Ex: Essence, Diesel" 
+                  onChange={handleChange} 
+                  required 
+                />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="transmission">
+                  <span>Transmission</span>
+                </label>
+                <input 
+                  type="text" 
+                  id="transmission" 
+                  name="transmission" 
+                  placeholder="Ex: Manuelle, Automatique" 
+                  onChange={handleChange} 
+                  required 
+                />
               </div>
             </div>
 
             <div className="form-column">
               <div className="form-group">
-                <label htmlFor="type">Type de voiture</label>
-                <input type="text" id="type" name="type" placeholder="Ex: Berline, SUV" onChange={handleChange} required />
+                <label htmlFor="type">
+                  <span>Type de voiture</span>
+                </label>
+                <input 
+                  type="text" 
+                  id="type" 
+                  name="type" 
+                  placeholder="Ex: Berline, SUV" 
+                  onChange={handleChange} 
+                  required 
+                />
               </div>
 
               <div className="form-group full-width">
-                <label htmlFor="description">Description</label>
-                <textarea id="description" name="description" placeholder="Décrivez votre voiture..." rows="4" onChange={handleChange} required></textarea>
+                <label htmlFor="description">
+                  <span>Description</span>
+                </label>
+                <textarea 
+                  id="description" 
+                  name="description" 
+                  placeholder="Décrivez votre voiture (équipements, état, particularités...)" 
+                  rows="4" 
+                  onChange={handleChange} 
+                  required
+                ></textarea>
               </div>
 
               <div className="form-actions">
-                <button type="submit" className="submit-button">Ajouter</button>
-                <button type="button" className="return-button" onClick={() => navigate("/")}>Retour</button>
+                <button type="submit" className="submit-button">
+                  <span>Ajouter ma voiture</span>
+                </button>
+                <button 
+                  type="button" 
+                  className="return-button" 
+                  onClick={() => navigate("/")}
+                >
+                  <span>Retour</span>
+                </button>
               </div>
             </div>
           </div>

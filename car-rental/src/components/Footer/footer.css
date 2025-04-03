@@ -98,24 +98,31 @@
   transform: translateX(5px);
 }
 
+/* Modifier la taille du cadre de contact rapide */
 .contact-column {
   background: rgba(255, 255, 255, 0.05);
   padding: 1.5rem;
   border-radius: 8px;
+  min-width: 280px; /* Ajouter une largeur minimale */
+  box-sizing: border-box;
 }
 
-.contact-info {
-  list-style: none;
-  padding: 0;
-  margin: 0 0 1.5rem 0;
-}
-
+/* Améliorer la gestion du texte trop long */
 .contact-info li {
   display: flex;
-  align-items: center;
+  align-items: flex-start; /* Changer à flex-start pour aligner en haut */
   gap: 0.8rem;
   margin-bottom: 1rem;
   font-size: 0.9rem;
+  word-break: break-word; /* Pour que les mots longs se coupent correctement */
+}
+
+/* Spécifiquement pour l'email */
+.contact-info a {
+  overflow-wrap: break-word; /* Pour que les emails longs se coupent bien */
+  word-wrap: break-word;
+  hyphens: auto;
+  max-width: 100%; /* Limite la largeur à celle du conteneur parent */
 }
 
 .contact-icon {
@@ -216,7 +223,7 @@
   }
   
   .contact-column {
-    padding: 1.2rem;
+    padding: 1.4rem;
   }
   
   .legal-links {
