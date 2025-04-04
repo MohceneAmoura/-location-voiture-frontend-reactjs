@@ -1,14 +1,27 @@
 //C:\Users\aimen\car-rental\src\components\Header\Header.jsx
 import React, { useState, useContext } from "react";
-import { Link } from "react-router-dom";
-import { FaBars, FaTimes, FaShoppingCart } from "react-icons/fa";
+import { Link, useLocation } from "react-router-dom";
+import { FaBars, FaTimes, FaCar, FaUserCircle } from "react-icons/fa";
 import { CartContext } from "../../context/CartContext";
 import "./header.css";
 import logo from "../../assets/logo1.svg";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { cartItems } = useContext(CartContext); // ✅ Utilisation correcte du contexte
+  const { cartItems } = useContext(CartContext);
+  const location = useLocation();
+  
+  // Close mobile menu when clicking a link
+  const handleLinkClick = () => {
+    if (isMenuOpen) {
+      setIsMenuOpen(false);
+    }
+  };
+
+  // Check if path is active
+  const isActive = (path) => {
+    return location.pathname === path ? "active" : "";
+  };
 
   return (
     <header className="header">
@@ -18,32 +31,51 @@ const Header = () => {
         </Link>
       </div>
 
-      {/* Bouton pour le menu mobile */}
-      <button className="mobile-menu-button" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+      {/* Mobile menu button */}
+      <button 
+        className="mobile-menu-button" 
+        onClick={() => setIsMenuOpen(!isMenuOpen)}
+        aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+      >
         {isMenuOpen ? <FaTimes /> : <FaBars />}
       </button>
 
-      {/* Navigation principale */}
+      {/* Main navigation */}
       <nav className={`navigation ${isMenuOpen ? "show" : ""}`}>
-        <Link to="/" className="nav-link">Accueil</Link> {/* Lien vers la page d'accueil */}
-        <Link to="/vehicules">Véhicules</Link>
-        <Link to="/contact">Contact</Link>
-        <Link to="/add-car" className="nav-button">Louer ma voiture</Link>
-        <Link to="/login" className="nav-button">Se connecter</Link>
-        <Link to="/signup" className="nav-button signup">S'inscrire</Link>
+        <Link to="/" className={`nav-link ${isActive("/")}`} onClick={handleLinkClick}>Accueil</Link>
+        <Link to="/vehicules" className={`nav-link ${isActive("/vehicules")}`} onClick={handleLinkClick}>Véhicules</Link>
+        <Link to="/contact" className={`nav-link ${isActive("/contact")}`} onClick={handleLinkClick}>Contact</Link>
+        
+        <div className="action-buttons">
+          <Link to="/add-car" className="nav-button" onClick={handleLinkClick}>
+            Louer ma voiture
+          </Link>
+          <Link to="/login" className="nav-button login" onClick={handleLinkClick}>
+            <FaUserCircle className="button-icon" />
+            Se connecter
+          </Link>
+          <Link to="/signup" className="nav-button signup" onClick={handleLinkClick}>
+            S'inscrire
+          </Link>
+        </div>
 
-        {/* Icône panier avec compteur */}
-        <Link to="/cart" className="cart-icon">
-          <FaShoppingCart className="cart-img" />
-          {cartItems.length > 0 && <span className="cart-count">{cartItems.length}</span>}
+        {/* Cart icon with counter */}
+        <Link to="/cart" className="cart-icon" onClick={handleLinkClick}>
+  <FaCar className="cart-img" />
+  {cartItems.length > 0 && (
+    <span className="cart-count" aria-label={`${cartItems.length} items in cart`}>
+      {cartItems.length}
+    </span>
+  )}
+</Link>
+
+        {/* Admin link - conditionally render based on user role */}
+        <Link to="/admin/approval" className="nav-button admin-link" onClick={handleLinkClick}>
+          Admin
         </Link>
-
-        {/* 🔹 Ajout du lien vers l’espace admin */}
-        <Link to="/admin/approval" className="nav-button admin-link">Admin</Link>
       </nav>
     </header>
   );
 };
 
 export default Header;
-

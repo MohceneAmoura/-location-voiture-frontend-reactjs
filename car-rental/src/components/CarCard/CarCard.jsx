@@ -44,7 +44,7 @@ const CarCard = ({ car, isOpen, toggleDescription }) => {
 
         <div className="price-section">
           <div className="price-container">
-            <span className="price">{car.price}€</span>
+            <span className="price">{car.price} DZG</span>
             <span className="per-day">/jour</span>
           </div>
           <div className="car-actions">

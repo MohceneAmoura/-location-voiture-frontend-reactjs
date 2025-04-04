@@ -114,11 +114,11 @@ const AddCar = () => {
             type="number" 
             id="price" 
             name="price" 
-            placeholder="50" 
+            placeholder="2000.00" 
             onChange={handleChange} 
             required 
         />
-        <span className="price-suffix">€ / jour</span> {/* Changed suffix */}
+        <span className="price-suffix">DZG / jour</span> {/* Changed suffix */}
     </div>
 </div>
               <div className="form-group">

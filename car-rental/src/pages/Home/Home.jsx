@@ -66,7 +66,7 @@ const Home = () => {
         <div className="hero-overlay"></div>
         <div className="hero-container">
           <div className="hero-content">
-            <h1>Location Éco-Responsable de Véhicules Premium</h1>
+            <h1>Location AutoLibre 🚗 de Véhicules Premium</h1>
             <p className="hero-subtitle">Achref Makhlouf vous propose une expérience de location unique, alliant performance et respect de l'environnement</p>
             <div className="hero-cta">
               <Link to="/vehicules" className="cta-button primary">
@@ -136,15 +136,15 @@ const Home = () => {
                 <div className="offer-agencies">
                   <div className="agency-item">
                     <span className="agency-name">Wisecars</span>
-                    <span className="agency-price">15 € / jour</span>
+                    <span className="agency-price"> 2000.00 DZG / jour</span>
                   </div>
                   <div className="agency-item">
                     <span className="agency-name">AutoEurope</span>
-                    <span className="agency-price">16 € / jour</span>
+                    <span className="agency-price"> 5000.00 DZG  / jour</span>
                   </div>
                   <div className="agency-item">
                     <span className="agency-name">Rentalcars</span>
-                    <span className="agency-price">17 € / jour</span>
+                    <span className="agency-price"> 8000.00 DZG / jour</span>
                   </div>
                 </div>
               </div>
@@ -159,15 +159,15 @@ const Home = () => {
                 <div className="offer-agencies">
                   <div className="agency-item">
                     <span className="agency-name">AutoEurope</span>
-                    <span className="agency-price">17 € / jour</span>
+                    <span className="agency-price"> 10000.00 DZG / jour</span>
                   </div>
                   <div className="agency-item">
                     <span className="agency-name">Rentalcars</span>
-                    <span className="agency-price">17 € / jour</span>
+                    <span className="agency-price"> 12000 DZG / jour</span>
                   </div>
                   <div className="agency-item">
                     <span className="agency-name">Budget</span>
-                    <span className="agency-price">54 € / jour</span>
+                    <span className="agency-price"> 20000 DZG / jour</span>
                   </div>
                 </div>
               </div>
@@ -182,15 +182,15 @@ const Home = () => {
                 <div className="offer-agencies">
                   <div className="agency-item">
                     <span className="agency-name">AutoEurope</span>
-                    <span className="agency-price">12 € / jour</span>
+                    <span className="agency-price"> 3000.00 DZG / jour</span>
                   </div>
                   <div className="agency-item">
                     <span className="agency-name">Wisecars</span>
-                    <span className="agency-price">17 € / jour</span>
+                    <span className="agency-price"> 5000 DZG / jour</span>
                   </div>
                   <div className="agency-item">
                     <span className="agency-name">BSPAuto</span>
-                    <span className="agency-price">30 € / jour</span>
+                    <span className="agency-price"> 9000.00 DZG / jour</span>
                   </div>
                 </div>
               </div>

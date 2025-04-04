@@ -1,25 +1,320 @@
-/*C:\Users\aimen\car-rental\src\pages\AdminApproval\adminApproval.css*/
-/* adminApproval.css - CSS spécifique à la page d'approbation admin uniquement */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
-.admin-approval-page h2 {
-  position: relative;
-  display: block; /* Change inline-block à block */
-  font-size: 2.2rem;
-  font-weight: 700;
-  text-align: center;
-  margin: 0 auto 30px; /* Centre automatiquement en horizontal */
-  padding: 0 30px 15px;
-  width: fit-content; /* Ajuste la largeur du titre à son contenu */
-  color: #2c3e50;
-  animation: titleEntrance 1s ease-out both, 
-             subtlePulse 4s ease-in-out infinite;
+/* C:\Users\aimen\car-rental\src\pages\AdminApproval\adminApproval.css */
+/* C:\Users\aimen\car-rental\src\pages\AdminApproval\adminApproval.css */
+
+/* --- Variables CSS (basées sur cart.css fourni) --- */
+:root {
+  --primary: #0062cc;
+  --primary-light: #4a90e2;
+  --primary-dark: #004a99;
+  --secondary: #2c3e50;
+  --accent: #ff9800; /* Orange (peut être utilisé pour certains accents si besoin) */
+  --light: #f5f7fa; /* Fond de page léger */
+  --white: #ffffff; /* Fond principal des cartes/éléments */
+  --dark: #34495e; /* Texte secondaire */
+  --success: #27ae60; /* Vert pour Approuver */
+  --success-dark: #219a52; /* Vert foncé pour survol (ajouté) */
+  --danger: #e74c3c; /* Rouge pour Rejeter / Badge (ajouté) */
+  --danger-dark: #c0392b; /* Rouge foncé pour survol (ajouté) */
+  --gray-light: #f8f9fa; /* Fond très léger (utilisé pour description ?) */
+  --gray: #e9ecef; /* Bordures, séparateurs */
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.1); /* Ombre standard */
+  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.05); /* Ombre légère */
+  --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); /* Transition standard */
 }
 
-/* Correction de l'animation */
-@keyframes titleEntrance {
+/* --- Styles de Base (similaire à .cart-container / .cart-page) --- */
+.admin-approval-page {
+  background-color: var(--light);
+  min-height: 100vh; /* Modification pour couvrir toute la hauteur de la page */
+  width: 100%;
+  padding: 2rem 1rem;
+  font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  box-sizing: border-box;
+}
+
+.admin-approval-page-content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* --- En-tête (similaire à .cart-header) --- */
+.admin-approval-page h2.animated-title {
+  font-size: 2.2rem;
+  color: var(--secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  text-align: center;
+  margin: 0 auto 2.5rem;
+  position: relative;
+  font-weight: 600;
+  padding-bottom: 10px;
+  opacity: 0;
+  transform: translateY(-20px);
+  animation: titleFadeIn 0.8s ease-out 0.2s forwards;
+}
+
+/* Ajout d'une icône avant le titre */
+.admin-approval-page h2.animated-title::before {
+  content: '\1F510'; /* Icône cadenas */
+  font-size: 1.8rem;
+  margin-right: 10px;
+}
+
+.admin-approval-page h2.animated-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 4px;
+  width: 80px;
+  background: linear-gradient(to right, var(--primary), var(--accent));
+  margin-top: 1rem;
+  border-radius: 2px;
+  transform-origin: center;
+  animation: underlineGrow 0.8s ease-out 0.7s forwards;
+}
+
+@keyframes titleFadeIn {
   from {
     opacity: 0;
-    transform: translateY(-30px); /* Enlève translateX pour éviter le décalage */
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes underlineGrow {
+  from {
+    transform: translateX(-50%) scaleX(0);
+  }
+  to {
+    transform: translateX(-50%) scaleX(1);
+  }
+}
+
+/* --- Liste des Cartes (similaire à .cart-list dans cart.css) --- */
+.admin-approval-page .car-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+  gap: 1.5rem;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+/* --- Carte Voiture (similaire à .cart-item) --- */
+.admin-approval-page .car-card {
+  background: var(--white);
+  border-radius: 10px;
+  margin-bottom: 1.5rem;
+  padding: 1.5rem;
+  position: relative;
+  overflow: hidden;
+  transition: var(--transition);
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--gray);
+  box-shadow: var(--shadow-sm);
+  opacity: 0;
+  animation: cardFadeIn 0.5s ease-out forwards;
+}
+
+/* Ajout d'un badge "En attente" */
+.admin-approval-page .car-card::before {
+  content: 'En attente';
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: var(--accent);
+  color: white;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  z-index: 1;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.admin-approval-page .car-card:nth-child(1) {
+  animation-delay: 0.3s;
+}
+.admin-approval-page .car-card:nth-child(2) {
+  animation-delay: 0.4s;
+}
+.admin-approval-page .car-card:nth-child(3) {
+  animation-delay: 0.5s;
+}
+.admin-approval-page .car-card:nth-child(4) {
+  animation-delay: 0.6s;
+}
+.admin-approval-page .car-card:nth-child(5) {
+  animation-delay: 0.7s;
+}
+
+@keyframes cardFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px) translateX(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) translateX(0);
+  }
+}
+
+.admin-approval-page .car-card:hover {
+  transform: translateY(-5px) scale(1.01);
+  box-shadow: var(--shadow);
+}
+
+/* --- Image Voiture (similaire à .cart-image) --- */
+.admin-approval-page .car-image {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  transition: var(--transition);
+  margin-bottom: 1rem;
+  display: block;
+}
+
+/* Effet de survol sur l'image */
+.admin-approval-page .car-image:hover {
+  transform: scale(1.02);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.12);
+}
+
+/* --- Détails Voiture (similaire à .cart-details) --- */
+.admin-approval-page .car-details {
+  flex-grow: 1;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 15px;
+  margin-bottom: 1rem;
+}
+
+.admin-approval-page .car-details h3 {
+  color: var(--secondary);
+  margin: 0 0 10px 0;
+  font-size: 1.4rem;
+  font-weight: 600;
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  line-height: 1.3;
+}
+
+.admin-approval-page .car-details h3::after {
+  content: attr(data-category);
+  background: var(--danger);
+  color: white;
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-left: 10px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.admin-approval-page .car-details p {
+  color: var(--dark);
+  margin: 0;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  font-weight: 400;
+}
+
+.admin-approval-page .car-details p::before {
+  content: '';
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  filter: grayscale(50%) opacity(60%);
+}
+
+.admin-approval-page .car-details p:nth-of-type(1)::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%233498db' viewBox='0 0 24 24'%3E%3Cpath d='M16 4c0-1.1.9-2 2-2s2 .9 2 2-.9 2-2 2-2-.9-2-2zm4 18v-6h2.5l-2.54-7.63C19.68 7.55 18.92 7 18.06 7h-.12c-.86 0-1.63.55-1.9 1.37l-.86 2.58c1.08.6 1.82 1.73 1.82 3.05v8h3zm-7.5-10.5c.83 0 1.5-.67 1.5-1.5s-.67-1.5-1.5-1.5S11 9.17 11 10s.67 1.5 1.5 1.5zM5.5 6c1.11 0 2-.89 2-2s-.89-2-2-2-2 .89-2 2 .89 2 2 2zm2 16v-7H9V9c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v6h1.5v7h4zm6.5 0v-4h1v-4c0-.82-.68-1.5-1.5-1.5h-2c-.82 0-1.5.68-1.5 1.5v4h1v4h3z'/%3E%3C/svg%3E");
+}
+.admin-approval-page .car-details p:nth-of-type(2)::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%233498db' viewBox='0 0 24 24'%3E%3Cpath d='M19.77 7.23l.01-.01-3.72-3.72L15 4.56l2.11 2.11c-.94.36-1.61 1.26-1.61 2.33 0 1.38 1.12 2.5 2.5 2.5.36 0 .69-.08 1-.21v7.21c0 .55-.45 1-1 1s-1-.45-1-1V14c0-1.1-.9-2-2-2h-1V5c0-1.1-.9-2-2-2H6c-1.1 0-2 .9-2 2v16h10v-7.5h1.5v5c0 1.38 1.12 2.5 2.5 2.5s2.5-1.12 2.5-2.5V9c0-.69-.28-1.32-.73-1.77zM18 10c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zM8 18v-4.5H6L10 6v5h2l-4 7z'/%3E%3C/svg%3E");
+}
+.admin-approval-page .car-details p:nth-of-type(3)::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%233498db' viewBox='0 0 24 24'%3E%3Cpath d='M12 2c-4.42 0-8 3.58-8 8 0 1.95.7 3.73 1.86 5.12L4.25 17l1.41 1.41 1.61-1.61C8.84 18.4 10.34 19 12 19c4.42 0 8-3.58 8-8 0-4.42-3.58-8-8-8zm-1 13h2v2h-2v-2zm0-9h2v6h-2V6z'/%3E%3C/svg%3E");
+}
+.admin-approval-page .car-details p:nth-of-type(4)::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%233498db' viewBox='0 0 24 24'%3E%3Cpath d='M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z'/%3E%3C/svg%3E");
+}
+
+/* Amélioration de la couleur au survol */
+.admin-approval-page .car-details p:hover::before {
+  filter: grayscale(0%) opacity(100%);
+}
+
+/* --- Bouton Description --- */
+.admin-approval-page .description-toggle {
+  width: auto;
+  margin: 1rem 0 0;
+  padding: 8px 15px;
+  background: transparent;
+  border: 1px solid var(--gray);
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition);
+  font-size: 0.85rem;
+  align-self: flex-start;
+}
+
+.admin-approval-page .description-toggle:hover {
+  background: var(--gray-light);
+  border-color: var(--primary-light);
+  transform: translateY(-2px);
+}
+
+.admin-approval-page .description-toggle::after {
+  content: '▼';
+  margin-left: 8px;
+  font-size: 0.7rem;
+  transition: transform var(--transition);
+}
+.admin-approval-page .description-toggle.expanded::after {
+  transform: rotate(180deg);
+}
+
+/* --- Zone Description Dépliée --- */
+.admin-approval-page .car-description {
+  padding: 1rem;
+  margin-top: 0.8rem;
+  background-color: var(--gray-light);
+  border-radius: 8px;
+  border: 1px solid var(--gray);
+  position: relative;
+  animation: fadeInDescription 0.3s ease-out;
+}
+
+@keyframes fadeInDescription {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
   }
   to {
     opacity: 1;
@@ -27,236 +322,61 @@
   }
 }
 
-/* Correction de l'animation de pulsation */
-@keyframes subtlePulse {
-  0%, 100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.03);
-  }
-}
-
-
-/* Effet de soulignement animé */
-.admin-approval-page h2::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 3px;
-  background: linear-gradient(90deg, #3498db, #e74c3c, #3498db);
-  background-size: 200% auto;
-  animation: shineLine 3s linear infinite, 
-             underlineGrow 1.5s ease-out;
-}
-
-/* Animation de la ligne colorée */
-@keyframes shineLine {
-  to {
-    background-position: 200% center;
-  }
-}
-
-/* Animation de croissance de la ligne */
-@keyframes underlineGrow {
-  from {
-    transform: scaleX(0);
-  }
-  to {
-    transform: scaleX(1);
-  }
-}
-.admin-approval-page {
-  font-family: 'Poppins', sans-serif;
-  max-width: 1200px;
-  margin: 30px auto;
-  padding: 25px;
-  background-color: #f5f9fc;
-}
-
-
-
-.admin-approval-page .car-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 20px;
-  justify-content: center;
-}
-
-/* Style des cartes de voiture spécifiques à l'approbation admin */
-.admin-approval-page .car-card {
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-  overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  display: flex;
-  flex-direction: column;
-  border: 1px solid #f0f0f0;
-}
-
-.admin-approval-page .car-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
-}
-
-/* Image de la voiture */
-.admin-approval-page .car-image {
-  width: 100%;
-  height: 180px;
-  object-fit: cover;
-}
-
-/* Conteneur des détails - avec grid pour le nouvel affichage */
-.admin-approval-page .car-details {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  padding: 15px 20px;
-  text-align: left;
-}
-
-/* Titre avec badge de catégorie */
-.admin-approval-page .car-details h3 {
-  color: #2c3e50;
-  font-size: 1.5rem;
-  font-weight: 600;
-  margin-bottom: 15px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  grid-column: 1 / -1;
-}
-
-/* Ajout d'un badge de catégorie */
-.admin-approval-page .car-details h3::after {
-  content: attr(data-category);
-  background: #e74c3c;
-  color: white;
-  padding: 5px 15px;
-  border-radius: 20px;
-  font-size: 0.8rem;
-  font-weight: 600;
-  text-transform: uppercase;
-}
-
-/* Style pour les propriétés avec icônes */
-.admin-approval-page .car-details p {
-  color: #555;
-  font-size: 0.95rem;
-  margin: 5px 0;
-  display: flex;
-  align-items: center;
-  font-weight: 500;
-}
-
-/* Icônes pour chaque propriété */
-.admin-approval-page .car-details p::before {
-  content: '';
-  display: inline-block;
-  width: 20px;
-  height: 20px;
-  margin-right: 10px;
-  background-size: contain;
-  background-repeat: no-repeat;
-}
-
-/* Places/sièges */
-.admin-approval-page .car-details p:nth-of-type(1)::before {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%233498db' viewBox='0 0 24 24'%3E%3Cpath d='M16 4c0-1.1.9-2 2-2s2 .9 2 2-.9 2-2 2-2-.9-2-2zm4 18v-6h2.5l-2.54-7.63C19.68 7.55 18.92 7 18.06 7h-.12c-.86 0-1.63.55-1.9 1.37l-.86 2.58c1.08.6 1.82 1.73 1.82 3.05v8h3zm-7.5-10.5c.83 0 1.5-.67 1.5-1.5s-.67-1.5-1.5-1.5S11 9.17 11 10s.67 1.5 1.5 1.5zM5.5 6c1.11 0 2-.89 2-2s-.89-2-2-2-2 .89-2 2 .89 2 2 2zm2 16v-7H9V9c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v6h1.5v7h4zm6.5 0v-4h1v-4c0-.82-.68-1.5-1.5-1.5h-2c-.82 0-1.5.68-1.5 1.5v4h1v4h3z'/%3E%3C/svg%3E");
-}
-
-/* Type de carburant */
-.admin-approval-page .car-details p:nth-of-type(2)::before {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%233498db' viewBox='0 0 24 24'%3E%3Cpath d='M19.77 7.23l.01-.01-3.72-3.72L15 4.56l2.11 2.11c-.94.36-1.61 1.26-1.61 2.33 0 1.38 1.12 2.5 2.5 2.5.36 0 .69-.08 1-.21v7.21c0 .55-.45 1-1 1s-1-.45-1-1V14c0-1.1-.9-2-2-2h-1V5c0-1.1-.9-2-2-2H6c-1.1 0-2 .9-2 2v16h10v-7.5h1.5v5c0 1.38 1.12 2.5 2.5 2.5s2.5-1.12 2.5-2.5V9c0-.69-.28-1.32-.73-1.77zM18 10c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zM8 18v-4.5H6L10 6v5h2l-4 7z'/%3E%3C/svg%3E");
-}
-
-/* Transmission */
-.admin-approval-page .car-details p:nth-of-type(3)::before {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%233498db' viewBox='0 0 24 24'%3E%3Cpath d='M12 2c-4.42 0-8 3.58-8 8 0 1.95.7 3.73 1.86 5.12L4.25 17l1.41 1.41 1.61-1.61C8.84 18.4 10.34 19 12 19c4.42 0 8-3.58 8-8 0-4.42-3.58-8-8-8zm-1 13h2v2h-2v-2zm0-9h2v6h-2V6z'/%3E%3C/svg%3E");
-}
-
-/* Type de voiture */
-.admin-approval-page .car-details p:nth-of-type(4)::before {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%233498db' viewBox='0 0 24 24'%3E%3Cpath d='M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z'/%3E%3C/svg%3E");
-}
-
-/* Bouton de description */
-.admin-approval-page .description-toggle {
-  width: calc(100% - 40px);
-  margin: 15px 20px;
-  padding: 12px;
-  background: #f5f9fc;
-  border: none;
-  border-radius: 6px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #3498db;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.admin-approval-page .description-toggle:hover {
-  background: #e9f5ff;
-}
-
-.admin-approval-page .description-toggle::after {
-  content: '▼';
-  margin-left: 8px;
-  font-size: 0.8rem;
-}
-
-/* Style pour la description déployée */
-.admin-approval-page .car-description {
-  padding: 0 20px 15px;
-  border-top: 1px solid #f0f0f0;
-  border-bottom: 1px solid #f0f0f0;
-  margin-bottom: 15px;
-  background-color: #fafafa;
-}
-
 .admin-approval-page .car-description p {
-  font-size: 0.9rem;
-  color: #555;
-  line-height: 1.5;
+  font-size: 0.85rem;
+  color: var(--dark);
+  line-height: 1.6;
+  margin: 0;
 }
 
-/* Ligne de séparation */
+/* --- Séparateur (similaire à ligne dans cart) --- */
 .admin-approval-page .divider {
   height: 1px;
-  background: #eeeeee;
-  margin: 15px 20px;
+  background: linear-gradient(to right, transparent, var(--gray), transparent);
+  margin: 1.5rem 0;
+  border: none;
 }
 
-/* Section de prix */
+/* --- Section Prix (simple affichage) --- */
 .admin-approval-page .price-section {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 20px 15px;
+  justify-content: flex-end;
+  align-items: baseline;
+  padding: 0;
+  margin-bottom: 1rem;
 }
 
 .admin-approval-page .price-tag {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #2c3e50;
+  color: var(--secondary);
+  position: relative;
+  padding-left: 16px;
+}
+
+/* Ajout d'un petit symbole euro devant le prix */
+.admin-approval-page .price-tag::before {
+  content: '€';
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-size: 1rem;
+  color: var(--primary);
+  opacity: 0.7;
 }
 
 .admin-approval-page .price-tag .per-day {
   font-size: 0.9rem;
-  color: #7f8c8d;
+  color: var(--dark);
   font-weight: 400;
+  margin-left: 4px;
 }
 
-/* Boutons d'action */
+/* --- Actions Approbation (similaire à boutons cart) --- */
 .admin-approval-page .approval-actions {
   display: flex;
-  justify-content: space-between;
-  padding: 0 20px 15px;
+  gap: 10px;
+  padding: 0;
 }
 
 .admin-approval-page .approve-btn,
@@ -264,121 +384,274 @@
   padding: 10px 16px;
   border-radius: 6px;
   cursor: pointer;
-  font-weight: 500;
-  font-size: 0.95rem;
-  transition: all 0.3s ease;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all var(--transition);
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-grow: 1;
+  border: 1px solid transparent;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Effet ripple pour les boutons */
+.admin-approval-page .approve-btn::after,
+.admin-approval-page .reject-btn::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  background-image: radial-gradient(circle, #fff 10%, transparent 10.01%);
+  background-repeat: no-repeat;
+  background-position: 50%;
+  transform: scale(10, 10);
+  opacity: 0;
+  transition: transform .5s, opacity 1s;
+}
+
+.admin-approval-page .approve-btn:active::after,
+.admin-approval-page .reject-btn:active::after {
+  transform: scale(0, 0);
+  opacity: 0.3;
+  transition: 0s;
+}
+
+.admin-approval-page .approve-btn::before {
+  content: '\2714';
+  margin-right: 8px;
+  font-weight: bold;
+}
+.admin-approval-page .reject-btn::before {
+  content: '\2716';
+  margin-right: 8px;
+  font-weight: bold;
 }
 
 .admin-approval-page .approve-btn {
-  background: #3498db;
+  background: var(--success);
   color: white;
-  border: none;
-  flex: 2;
-  margin-right: 10px;
+  border-color: var(--success);
 }
-
 .admin-approval-page .approve-btn:hover {
-  background: #2980b9;
+  background: var(--success-dark);
+  border-color: var(--success-dark);
   transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(41, 128, 185, 0.3);
+  box-shadow: 0 4px 8px rgba(39, 174, 96, 0.2);
 }
 
 .admin-approval-page .reject-btn {
-  background: white;
-  color: #e74c3c;
-  border: 1px solid #e74c3c;
-  flex: 1;
-  margin-left: 10px;
+  background: var(--white);
+  color: var(--danger);
+  border: 1px solid var(--danger);
 }
-
 .admin-approval-page .reject-btn:hover {
-  background: #e74c3c;
+  background: var(--danger);
   color: white;
   transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(231, 76, 60, 0.3);
+  box-shadow: 0 4px 8px rgba(231, 76, 60, 0.2);
 }
 
-/* Bouton retour */
+/* --- Bouton Retour (similaire à .return-home) --- */
 .admin-approval-page .back-btn {
-  padding: 12px 20px;
-  background: #3498db;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--dark);
+  text-decoration: none;
   font-weight: 500;
-  font-size: 1rem;
-  margin: 25px auto;
-  display: block;
-  transition: all 0.3s ease;
+  transition: var(--transition);
+  padding: 0.8rem 1.2rem;
+  border-radius: 6px;
+  margin: 2rem auto 0;
+  background: var(--white);
+  border: 1px solid var(--gray);
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.admin-approval-page .back-btn::before {
+  content: '\2190';
+  font-weight: bold;
 }
 
 .admin-approval-page .back-btn:hover {
-  background: #2980b9;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(41, 128, 185, 0.3);
+  color: var(--primary);
+  background: var(--gray-light);
+  border-color: var(--primary-light);
+  transform: translateX(-50%) translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 98, 204, 0.1);
 }
 
-/* Message quand pas de voitures */
+/* --- Message si Aucune Voiture (similaire à .empty-cart) --- */
 .admin-approval-page > p {
   text-align: center;
-  padding: 30px;
-  background: #f8f9fa;
-  border-radius: 8px;
-  color: #7f8c8d;
-  font-size: 1rem;
-  margin: 20px 0;
+  padding: 3.5rem 2rem;
+  background: var(--white);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  margin: 2rem auto;
+  color: var(--dark);
+  font-size: 1.1rem;
+  max-width: 600px;
+  animation: fadeIn 0.5s ease-out;
 }
 
-/* Responsive */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.admin-approval-page > p::before {
+  content: '\1F6C8';
+  display: block;
+  font-size: 4rem;
+  color: var(--gray);
+  margin-bottom: 1.5rem;
+}
+
+/* Ajout d'un compteur d'éléments en attente */
+.admin-approval-page .count-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background: var(--primary);
+  color: white;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+/* Suppression du conteneur bleu au bas de la page */
+html, body {
+  background-color: var(--light);
+}
+
+/* Style pour assurer que tout le contenu est dans la couleur de fond light */
+body > *, #root, .app-container, main {
+  background-color: var(--light);
+}
+
+/* Assure que tout élément avec une couleur de fond bleue au bas de la page est remplacé */
+.footer, footer, .page-footer, .bottom-container {
+  background-color: var(--light) !important;
+}
+
+/* --- Styles Responsives (adaptés de cart.css) --- */
 @media (max-width: 768px) {
+  .admin-approval-page {
+    padding: 1rem;
+  }
+  .admin-approval-page h2.animated-title {
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+  }
   .admin-approval-page .car-list {
     grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .admin-approval-page .car-card {
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
+  .admin-approval-page .car-image {
+    height: 160px;
+    margin-bottom: 0.8rem;
+  }
+  .admin-approval-page .car-details {
+    padding: 0;
+    gap: 5px 10px;
+    margin-bottom: 0.8rem;
+  }
+  .admin-approval-page .car-details h3 {
+    font-size: 1.2rem;
+    margin-bottom: 8px;
+  }
+  .admin-approval-page .car-details h3::after {
+    font-size: 0.7rem;
+    padding: 3px 10px;
+  }
+  .admin-approval-page .car-details p {
+    font-size: 0.85rem;
+  }
+  .admin-approval-page .car-details p::before {
+    width: 14px;
+    height: 14px;
+    margin-right: 6px;
+  }
+
+  .admin-approval-page .description-toggle {
+    margin: 0.8rem 0 0;
+    padding: 6px 12px;
+    font-size: 0.8rem;
+  }
+  .admin-approval-page .car-description {
+    padding: 0.8rem;
+    margin-top: 0.5rem;
+  }
+  .admin-approval-page .car-description p {
+    font-size: 0.8rem;
+  }
+
+  .admin-approval-page .divider {
+    margin: 1rem 0;
+  }
+
+  .admin-approval-page .price-section {
+    padding: 0;
+    margin-bottom: 0.8rem;
+  }
+  .admin-approval-page .price-tag {
+    font-size: 1.3rem;
+  }
+  .admin-approval-page .price-tag .per-day {
+    font-size: 0.8rem;
   }
 
   .admin-approval-page .approval-actions {
     flex-direction: column;
+    padding: 0;
+    gap: 8px;
   }
-
   .admin-approval-page .approve-btn,
   .admin-approval-page .reject-btn {
     width: 100%;
-    margin: 5px 0;
+    font-size: 0.9rem;
+    padding: 10px;
   }
-  
-  .admin-approval-page .car-details h3 {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
+  .admin-approval-page .approve-btn::before,
+  .admin-approval-page .reject-btn::before {
+    margin-right: 6px;
   }
-  
-  .admin-approval-page .car-details h3::after {
-    align-self: flex-start;
-  }
-  
-  .admin-approval-page .car-details {
-    grid-template-columns: 1fr;
-  }
-}
-/* Animation sophistiquée avec plusieurs effets */
-.animated-title {
-  position: relative;
-  display: inline-block;
-  animation: 
-    colorChange 8s infinite,
-    subtlePulse 2s ease-in-out infinite alternate;
-}
 
-@keyframes colorChange {
-  0% { color: #2c3e50; }
-  50% { color: #3498db; }
-  100% { color: #2c3e50; }
-}
+  .admin-approval-page .back-btn {
+    margin-top: 1.5rem;
+    padding: 10px 20px;
+    font-size: 0.9rem;
+  }
 
-@keyframes subtlePulse {
-  from { transform: scale(1); }
-  to { transform: scale(1.05); }
+  .admin-approval-page > p {
+    padding: 2rem 1rem;
+    font-size: 1rem;
+  }
+  .admin-approval-page > p::before {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+  }
 }

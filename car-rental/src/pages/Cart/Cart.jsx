@@ -2,7 +2,7 @@
 import React, { useContext } from "react";
 import { CartContext } from "../../context/CartContext";
 import { Link } from "react-router-dom";
-import { FaTimes, FaCar, FaCalendarAlt, FaCreditCard } from "react-icons/fa";
+import { FaTimes, FaCar, FaCalendarAlt, FaCreditCard, FaArrowLeft, FaShoppingBag } from "react-icons/fa";
 import "./cart.css";
 
 const Cart = () => {
@@ -12,90 +12,111 @@ const Cart = () => {
   const total = cartItems.reduce((sum, item) => sum + item.totalPrice, 0);
 
   return (
-    <div className="cart-page">
-      <div className="cart-header">
-        <h2>
-          <FaCar className="header-icon" /> Votre Réservation
-        </h2>
-        <div className="header-divider"></div>
-      </div>
-
-      {cartItems.length === 0 ? (
-        <div className="empty-cart">
-
-          <h3>Votre panier est vide</h3>
-          <p>Explorez notre gamme de véhicules et trouvez la perle rare</p>
-          <Link to="/vehicules" className="browse-btn">
-            Voir nos véhicules
-          </Link>
+    <div className="cart-container">
+      <div className="cart-page">
+        <div className="cart-header">
+          <h2>
+            <FaShoppingBag className="header-icon" /> Votre Réservation
+          </h2>
+          <div className="header-divider"></div>
         </div>
-      ) : (
-        <>
-          <ul className="cart-list">
-            {cartItems.map((item, index) => (
-              <li key={index} className="cart-item" data-aos="fade-up">
-                <div className="item-image-container">
-                  <img src={item.image} alt={item.name} className="cart-image" />
-                  <div className="car-badge">{item.category}</div>
-                </div>
-                
-                <div className="cart-details">
-                  <h3>{item.name}</h3>
-                  <div className="detail-row">
-                    <span className="detail-label">
-                      <FaCalendarAlt /> Durée:
-                    </span>
-                    <span>{item.duration} jour(s)</span>
-                  </div>
-                  <div className="detail-row">
-                    <span className="detail-label">Prix/jour:</span>
-                    <span>{item.price}€</span>
-                  </div>
-                  <div className="detail-row total">
-                    <span className="detail-label">Total:</span>
-                    <span className="price">{item.totalPrice}€</span>
-                  </div>
-                </div>
 
-                <button
-                  className="delete-button"
-                  onClick={() => removeFromCart(item.id)}
-                  aria-label="Supprimer"
-                >
-                  <FaTimes />
-                </button>
-              </li>
-            ))}
-          </ul>
-
-          <div className="cart-summary" data-aos="fade-up">
-            <h3>
-              <FaCreditCard /> Récapitulatif
-            </h3>
-            <div className="summary-row">
-              <span>Sous-total:</span>
-              <span>{total}€</span>
+        {cartItems.length === 0 ? (
+          <div className="empty-cart">
+            <div className="empty-cart-icon">
+              <FaShoppingBag />
             </div>
-            <div className="summary-row">
-              <span>Frais de service:</span>
-              <span>Gratuit</span>
-            </div>
-            <div className="summary-row total">
-              <span>Total à payer:</span>
-              <span className="total-price">{total}€</span>
-            </div>
-
-            <button className="checkout-btn">Procéder au paiement</button>
-            <Link to="/vehicules" className="add-more">
-              + Ajouter un autre véhicule
+            <h3>Votre panier est vide</h3>
+            <p>Explorez notre gamme de véhicules et trouvez la perle rare</p>
+            <Link to="/vehicules" className="browse-btn">
+              Voir nos véhicules
             </Link>
           </div>
-        </>
-      )}
+        ) : (
+          <div className="cart-content">
+            <div className="cart-items-container">
+              <h3 className="section-title">
+                <FaCar /> Vos Véhicules Sélectionnés
+              </h3>
+              <ul className="cart-list">
+                {cartItems.map((item, index) => (
+                  <li key={index} className="cart-item">
+                    <div className="item-image-container">
+                      <img src={item.image} alt={item.name} className="cart-image" />
+                      <div className="car-badge">{item.category}</div>
+                    </div>
+                    
+                    <div className="cart-details">
+                      <h3>{item.name}</h3>
+                      <div className="detail-row">
+                        <span className="detail-label">
+                          <FaCalendarAlt /> Durée:
+                        </span>
+                        <span>{item.duration} jour(s)</span>
+                      </div>
+                      <div className="detail-row">
+                        <span className="detail-label">Prix/jour:</span>
+                        <span>{item.price} DZG</span>
+                      </div>
+                      <div className="detail-row total">
+                        <span className="detail-label">Total:</span>
+                        <span className="price">{item.totalPrice} DZG</span>
+                      </div>
+                    </div>
 
-      <Link to="/" className="return-home">
-        ← Retour à l'accueil
-      </Link>
+                    <button
+                      className="delete-button"
+                      onClick={() => removeFromCart(item.id)}
+                      aria-label="Supprimer"
+                    >
+                      <FaTimes />
+                    </button>
+                  </li>
+                ))}
+              </ul>
+              
+              <Link to="/vehicules" className="add-more-btn">
+                + Ajouter un autre véhicule
+              </Link>
+            </div>
+
+            <div className="cart-summary">
+              <h3>
+                <FaCreditCard /> Récapitulatif
+              </h3>
+              <div className="summary-rows">
+                <div className="summary-row">
+                  <span>Sous-total:</span>
+                  <span>{total} DZG</span>
+                </div>
+                <div className="summary-row">
+                  <span>Frais de service:</span>
+                  <span>Gratuit</span>
+                </div>
+                <div className="summary-row total">
+                  <span>Total à payer:</span>
+                  <span className="total-price">{total} DZG</span>
+                </div>
+              </div>
+
+              <button className="checkout-btn">Procéder au paiement</button>
+              
+              <div className="payment-methods">
+                <span>Nous acceptons:</span>
+                <div className="payment-icons">
+                  <i className="payment-icon visa"></i>
+                  <i className="payment-icon mastercard"></i>
+                  <i className="payment-icon paypal"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        <Link to="/" className="return-home">
+          <FaArrowLeft /> Retour à l'accueil
+        </Link>
+      </div>
     </div>
   );
 };
