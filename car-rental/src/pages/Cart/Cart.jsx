@@ -104,9 +104,10 @@ const Cart = () => {
               <div className="payment-methods">
                 <span>Nous acceptons:</span>
                 <div className="payment-icons">
-                  <i className="payment-icon visa"></i>
-                  <i className="payment-icon mastercard"></i>
-                  <i className="payment-icon paypal"></i>
+                  <img src="/images/payment/Visa.png" alt="Visa" className="payment-icon" loading="lazy" />
+                  <img src="/images/payment/mastercard.png" alt="Mastercard" className="payment-icon" loading="lazy" />
+                  <img src="/images/payment/paypal.png" alt="PayPal" className="payment-icon" loading="lazy" />
+                  <img src="/images/payment/cb.png" alt="Carte Bancaire" className="payment-icon" loading="lazy" />
                 </div>
               </div>
             </div>
