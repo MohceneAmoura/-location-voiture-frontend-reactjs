@@ -206,59 +206,69 @@ const Home = () => {
           </div>
         </div>
       </section>
-
-      {/* About Section */}
-      <section className="about-section">
-        <div className="container">
-          <div className="about-content">
-            <div className="about-image">
-              <div className="image-wrapper">
-                <img src="/images/achref-makhlouf2.jpg" alt="Achref Makhlouf - Fondateur" />
-              </div>
-              <div className="founder-badge">
-                <span className="founder-name">Achref Makhlouf</span>
-                <span className="founder-title">Fondateur & CEO</span>
-              </div>
-            </div>
-            <div className="about-text">
-              <span className="section-subtitle">Notre histoire</span>
-              <h2 className="section-title">Notre Philosophie</h2>
-              <blockquote className="highlight-text">
-                "Chez <strong>AutoLibre 🚗✨</strong>, nous croyons qu'une location de voiture peut être à la fois luxueuse et responsable."
-              </blockquote>
-              <p>
-                Fondée en 2024 par Achref Makhlouf, notre entreprise s'engage à révolutionner l'industrie de la location automobile avec une approche centrée sur le client et l'environnement.
-              </p>
-              <ul className="about-features">
-                <li>
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M20 6L9 17L4 12" stroke="#2a9d8f" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                  <span>Flotte régulièrement renouvelée et entretenue</span>
-                </li>
-                <li>
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M20 6L9 17L4 12" stroke="#2a9d8f" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                  <span>Partenariats avec des marques premium</span>
-                </li>
-                <li>
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M20 6L9 17L4 12" stroke="#2a9d8f" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                  <span>Compensation carbone pour chaque location</span>
-                </li>
-                <li>
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M20 6L9 17L4 12" stroke="#2a9d8f" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                  <span>Service client primé 3 années consécutives</span>
-                </li>
-              </ul>
-            </div>
+{/* About Section */}
+<section className="about-section">
+  <div className="container">
+    <div className="about-content">
+      <div className="founders-images">
+        <div className="founder-column">
+          <div className="image-wrapper">
+            <img src="/images/achref-makhlouf2.jpg" alt="Achref Makhlouf - Fondateur" />
+          </div>
+          <div className="founder-badge">
+            <span className="founder-name">Achref </span>
+            <span className="founder-title">Co-Fondateur & CEO</span>
           </div>
         </div>
-      </section>
+        <div className="founder-column">
+          <div className="image-wrapper">
+            <img src="/images/wassim.jpg" alt="Wassim - Fondateur" />
+          </div>
+          <div className="founder-badge">
+            <span className="founder-name">Wassim</span>
+            <span className="founder-title">Co-Fondateur & COO</span>
+          </div>
+        </div>
+      </div>
+      <div className="about-text">
+        <span className="section-subtitle">Notre histoire</span>
+        <h2 className="section-title">Notre Philosophie</h2>
+        <blockquote className="highlight-text">
+          "Chez <strong>AutoLibre 🚗✨</strong>, nous croyons qu'une location de voiture peut être à la fois luxueuse et responsable."
+        </blockquote>
+        <p>
+          Fondée en 2024 par Achref Makhlouf et Wassim Hamoude, notre entreprise s'engage à révolutionner l'industrie de la location automobile avec une approche centrée sur le client et l'environnement.
+        </p>
+        <ul className="about-features">
+          <li>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M20 6L9 17L4 12" stroke="#2a9d8f" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+            <span>Flotte régulièrement renouvelée et entretenue</span>
+          </li>
+          <li>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M20 6L9 17L4 12" stroke="#2a9d8f" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+            <span>Partenariats avec des marques premium</span>
+          </li>
+          <li>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M20 6L9 17L4 12" stroke="#2a9d8f" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+            <span>Compensation carbone pour chaque location</span>
+          </li>
+          <li>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M20 6L9 17L4 12" stroke="#2a9d8f" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+            <span>Service client primé 3 années consécutives</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
 
       {/* Stats Section */}
       <section className="stats-section">

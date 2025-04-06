@@ -386,7 +386,7 @@
   margin-top: 3rem;
 }
 
-/* About Section */
+/* About Section - Updated for two founders */
 .about-section {
   padding: 8rem 0;
   background-color: var(--secondary-color);
@@ -401,7 +401,15 @@
   align-items: center;
 }
 
-.about-image {
+/* Updated styling for founders section */
+.founders-images {
+  display: flex;
+  gap: 2rem;
+  position: relative;
+}
+
+.founder-column {
+  flex: 1;
   position: relative;
 }
 
@@ -409,29 +417,31 @@
   border-radius: var(--radius);
   overflow: hidden;
   box-shadow: var(--shadow-lg);
+  margin-bottom: 2rem;
 }
 
-.about-image img {
+.founders-images img {
   width: 100%;
   height: auto;
   display: block;
   transition: transform 0.5s ease;
 }
 
-.about-image:hover img {
+.founders-images img:hover {
   transform: scale(1.03);
 }
 
 .founder-badge {
   position: absolute;
   bottom: -20px;
-  left: 40px;
+  left: 20px;
   background: var(--primary-color);
   color: var(--light-color);
-  padding: 1.5rem;
+  padding: 1.2rem;
   border-radius: var(--radius);
   box-shadow: var(--shadow-md);
-  max-width: 250px;
+  max-width: 200px;
+  z-index: 2;
 }
 
 .founder-name {
@@ -448,6 +458,32 @@
 
 .about-text {
   padding: 2rem 0;
+}
+
+.section-subtitle {
+  color: var(--primary-color);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.section-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--dark-color);
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+.section-title::after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 4px;
+  background: var(--primary-color);
+  margin-top: 1rem;
 }
 
 .highlight-text {
@@ -726,8 +762,8 @@
     grid-template-columns: 1fr;
     gap: 3rem;
   }
-  .about-image {
-    max-width: 600px;
+  .founders-images {
+    max-width: 800px;
     margin: 0 auto;
   }
   .section-title, .offers-title {
@@ -766,6 +802,13 @@
   .stats-grid {
     grid-template-columns: repeat(2, 1fr);
   }
+  .founders-images {
+    flex-direction: column;
+    gap: 4rem;
+  }
+  .founder-column {
+    margin-bottom: 1rem;
+  }
 }
 
 @media (max-width: 576px) {
@@ -786,8 +829,8 @@
     font-size: 2.5rem;
   }
   .founder-badge {
-    left: 20px;
-    padding: 1rem;
+    left: 15px;
+    padding: 0.8rem;
   }
   .highlight-text {
     font-size: 1.3rem;
@@ -864,7 +907,7 @@
 
 /* Animation au survol des images */
 .offer-image:hover img,
-.about-image:hover img {
+.founders-images img:hover {
   animation: float 3s ease-in-out infinite;
 }
 
@@ -910,7 +953,7 @@
 .offer-card,
 .testimonial-card,
 .offer-image img,
-.about-image img,
+.founders-images img,
 .value-icon,
 .stat-item,
 .agency-item,
@@ -927,6 +970,6 @@
 
 /* Transition pour les images */
 .offer-image img,
-.about-image img {
+.founders-images img {
   transition: transform 0.5s ease, opacity 0.3s ease;
 }

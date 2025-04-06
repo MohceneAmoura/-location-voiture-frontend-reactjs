@@ -1,15 +1,21 @@
 //C:\Users\aimen\car-rental\src\pages\Cart\Cart.jsx
 import React, { useContext } from "react";
 import { CartContext } from "../../context/CartContext";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom"; // Import useNavigate
 import { FaTimes, FaCar, FaCalendarAlt, FaCreditCard, FaArrowLeft, FaShoppingBag } from "react-icons/fa";
 import "./cart.css";
 
 const Cart = () => {
   const { cartItems, removeFromCart } = useContext(CartContext);
+  const navigate = useNavigate(); // Add useNavigate hook
 
   // Calcul du total
   const total = cartItems.reduce((sum, item) => sum + item.totalPrice, 0);
+
+  // Handler for checkout button
+  const handleCheckout = () => {
+    navigate("/payement"); // Navigate to payment page
+  };
 
   return (
     <div className="cart-container">
@@ -99,7 +105,8 @@ const Cart = () => {
                 </div>
               </div>
 
-              <button className="checkout-btn">Procéder au paiement</button>
+              {/* Update the checkout button to use the handler */}
+              <button className="checkout-btn" onClick={handleCheckout}>Procéder au paiement</button>
               
               <div className="payment-methods">
                 <span>Nous acceptons:</span>
