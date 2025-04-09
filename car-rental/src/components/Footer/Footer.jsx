@@ -4,7 +4,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { FaCar, FaPhoneAlt, FaEnvelope, FaMapMarkerAlt, FaShieldAlt } from 'react-icons/fa';
 import './footer.css';
-import logo from '../../assets/logo1.svg';
+
 
 const Footer = () => {
   return (
@@ -14,9 +14,9 @@ const Footer = () => {
         <div className="footer-grid">
           {/* Colonne Logo & Description */}
           <div className="footer-column">
-            <img src={logo} alt="AutoLibre" className="footer-logo" />
+            <h1 className="footer-logo-text">AutoLibre 🚗✨</h1> {/* New text-based logo */}
             <p className="footer-description">
-            AutoLibre 🚗✨- Votre partenaire de confiance pour la location de véhicules. 
+              AutoLibre 🚗✨ - Votre partenaire de confiance pour la location de véhicules. 
               Large choix de voitures à des tarifs compétitifs avec assistance 24/7.
             </p>
             <div className="trust-badges">

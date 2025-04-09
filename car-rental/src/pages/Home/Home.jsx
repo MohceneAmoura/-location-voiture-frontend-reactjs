@@ -66,7 +66,7 @@ const Home = () => {
         <div className="hero-overlay"></div>
         <div className="hero-container">
           <div className="hero-content">
-            <h1>Location AutoLibre 🚗 de Véhicules Premium</h1>
+            <h1>Location AutoLibre de Véhicules Premium</h1>
             <p className="hero-subtitle">Achref Makhlouf vous propose une expérience de location unique, alliant performance et respect de l'environnement</p>
             <div className="hero-cta">
               <Link to="/vehicules" className="cta-button primary">
