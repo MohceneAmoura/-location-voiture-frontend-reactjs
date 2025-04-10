@@ -234,7 +234,7 @@ const Home = () => {
         <span className="section-subtitle">Notre histoire</span>
         <h2 className="section-title">Notre Philosophie</h2>
         <blockquote className="highlight-text">
-          "Chez <strong>AutoLibre 🚗✨</strong>, nous croyons qu'une location de voiture peut être à la fois luxueuse et responsable."
+          "Chez <strong>AutoLibre 🚗</strong>, nous croyons qu'une location de voiture peut être à la fois luxueuse et responsable."
         </blockquote>
         <p>
           Fondée en 2024 par Achref Makhlouf et Wassim Hamoude, notre entreprise s'engage à révolutionner l'industrie de la location automobile avec une approche centrée sur le client et l'environnement.

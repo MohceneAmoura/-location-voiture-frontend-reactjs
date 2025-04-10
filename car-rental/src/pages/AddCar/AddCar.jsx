@@ -17,6 +17,15 @@ const AddCar = () => {
     status: "pending"
   });
 
+  // Options pour les menus déroulants (sans les noms de voiture)
+  const categoryOptions = ["Économique", "Confort", "Luxe", "Familiale", "SUV", "Sport"];
+  
+  const fuelTypeOptions = ["Essence", "Diesel", "Hybride", "Électrique", "GPL"];
+  
+  const transmissionOptions = ["Manuelle", "Automatique", "Semi-automatique"];
+  
+  const carTypeOptions = ["Berline", "SUV", "Coupé", "Cabriolet", "Monospace", "Break", "Citadine"];
+
   const [previewImage, setPreviewImage] = useState(null);
   const navigate = useNavigate();
 
@@ -95,32 +104,38 @@ const AddCar = () => {
                 <label htmlFor="category">
                   <span>Catégorie</span>
                 </label>
-                <input 
-                  type="text" 
+                <select 
                   id="category" 
                   name="category" 
-                  placeholder="Ex: Économique, Luxe" 
+                  value={car.category}
                   onChange={handleChange} 
-                  required 
-                />
+                  required
+                  className="select-input"
+                >
+                  <option value="" disabled>Sélectionnez une catégorie</option>
+                  {categoryOptions.map((option, index) => (
+                    <option key={index} value={option}>{option}</option>
+                  ))}
+                </select>
               </div>
 
               <div className="form-group price-input-container">
-    <label htmlFor="price">
-        <span>Prix par jour</span>
-    </label>
-    <div className="price-input-wrapper"> {/* New wrapper div */}
-        <input 
-            type="number" 
-            id="price" 
-            name="price" 
-            placeholder="2000.00" 
-            onChange={handleChange} 
-            required 
-        />
-        <span className="price-suffix">DZG / jour</span> {/* Changed suffix */}
-    </div>
-</div>
+                <label htmlFor="price">
+                  <span>Prix par jour</span>
+                </label>
+                <div className="price-input-wrapper">
+                  <input 
+                    type="number" 
+                    id="price" 
+                    name="price" 
+                    placeholder="2000.00" 
+                    onChange={handleChange} 
+                    required 
+                  />
+                  <span className="price-suffix">DZG / jour</span>
+                </div>
+              </div>
+              
               <div className="form-group">
                 <label htmlFor="seats">
                   <span>Nombre de places</span>
@@ -166,28 +181,38 @@ const AddCar = () => {
                 <label htmlFor="fuelType">
                   <span>Type de carburant</span>
                 </label>
-                <input 
-                  type="text" 
+                <select 
                   id="fuelType" 
                   name="fuelType" 
-                  placeholder="Ex: Essence, Diesel" 
+                  value={car.fuelType}
                   onChange={handleChange} 
-                  required 
-                />
+                  required
+                  className="select-input"
+                >
+                  <option value="" disabled>Sélectionnez un type de carburant</option>
+                  {fuelTypeOptions.map((option, index) => (
+                    <option key={index} value={option}>{option}</option>
+                  ))}
+                </select>
               </div>
 
               <div className="form-group">
                 <label htmlFor="transmission">
                   <span>Transmission</span>
                 </label>
-                <input 
-                  type="text" 
+                <select 
                   id="transmission" 
                   name="transmission" 
-                  placeholder="Ex: Manuelle, Automatique" 
+                  value={car.transmission}
                   onChange={handleChange} 
-                  required 
-                />
+                  required
+                  className="select-input"
+                >
+                  <option value="" disabled>Sélectionnez un type de transmission</option>
+                  {transmissionOptions.map((option, index) => (
+                    <option key={index} value={option}>{option}</option>
+                  ))}
+                </select>
               </div>
             </div>
 
@@ -196,14 +221,19 @@ const AddCar = () => {
                 <label htmlFor="type">
                   <span>Type de voiture</span>
                 </label>
-                <input 
-                  type="text" 
+                <select 
                   id="type" 
                   name="type" 
-                  placeholder="Ex: Berline, SUV" 
+                  value={car.type}
                   onChange={handleChange} 
-                  required 
-                />
+                  required
+                  className="select-input"
+                >
+                  <option value="" disabled>Sélectionnez un type de voiture</option>
+                  {carTypeOptions.map((option, index) => (
+                    <option key={index} value={option}>{option}</option>
+                  ))}
+                </select>
               </div>
 
               <div className="form-group full-width">

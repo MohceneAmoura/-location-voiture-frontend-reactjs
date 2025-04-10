@@ -655,3 +655,91 @@ body > *, #root, .app-container, main {
     margin-bottom: 1rem;
   }
 }
+/* Styles pour le bouton d'ajout de voiture */
+.admin-actions {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.add-car-btn {
+  background: linear-gradient(135deg, #1a2980, #26d0ce);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 30px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(26, 41, 128, 0.3);
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.add-car-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(26, 41, 128, 0.4);
+  background: linear-gradient(135deg, #1a2980, #2be8e6);
+}
+
+.add-car-btn:active {
+  transform: translateY(0);
+}
+
+/* Styles pour le formulaire d'ajout admin */
+.admin-add-car-form {
+  background: white;
+  border-radius: 15px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 0.5s ease-out;
+}
+
+.admin-add-car-form h3 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #1a2980;
+  font-size: 1.5rem;
+  position: relative;
+  padding-bottom: 10px;
+}
+
+.admin-add-car-form h3::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(to right, #1a2980, #26d0ce);
+}
+
+/* Adaptation des styles du formulaire pour l'admin */
+.admin-add-car-form .form-group label {
+  color: #2c3e50;
+  font-weight: 500;
+}
+
+.admin-add-car-form .submit-button {
+  background: linear-gradient(135deg, #1a2980, #26d0ce);
+}
+
+.admin-add-car-form .submit-button:hover {
+  background: linear-gradient(135deg, #15226b, #20c9c7);
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
