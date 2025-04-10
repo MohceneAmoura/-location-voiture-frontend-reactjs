@@ -119,14 +119,19 @@ const AdminApproval = () => {
       <h2 className="animated-title">Validation des voitures</h2>
       
       <div className="admin-actions">
-        <button 
-          onClick={() => setShowAddCarForm(!showAddCarForm)} 
-          className="add-car-btn"
-        >
-          {showAddCarForm ? 'Annuler' : 'Ajouter une voiture de location'}
-        </button>
-      </div>
-
+  <button 
+    onClick={() => setShowAddCarForm(!showAddCarForm)} 
+    className="add-car-btn"
+  >
+    {showAddCarForm ? 'Annuler' : 'Ajouter une voiture de location'}
+  </button>
+  <button 
+    onClick={() => navigate("/Reservation")} 
+    className="reservation-btn"
+  >
+    Voir les réservations
+  </button>
+</div>
       {showAddCarForm && (
         <div className="admin-add-car-form">
           <h3>Ajouter une nouvelle voiture</h3>

@@ -20,9 +20,29 @@ const CarDetails = () => {
 
     const handleChoose = () => {
         const totalPrice = car.price * duration;
-        const carWithDetails = { ...car, duration, totalPrice };
+        const carWithDetails = { 
+            ...car, 
+            duration, 
+            totalPrice,
+            // Ajout des informations nécessaires pour la réservation
+            startDate: new Date().toISOString(), // Date de début maintenant
+            endDate: new Date(Date.now() + duration * 24 * 60 * 60 * 1000).toISOString(), // Date de fin après 'duration' jours
+            status: "pending", // Statut initial
+            createdAt: new Date().toISOString(), // Date de création
+            id: `res-${Date.now()}-${Math.random().toString(36).substr(2, 9)}` // ID unique
+        };
 
+        // 1. Ajouter au panier
         addToCart(carWithDetails);
+        
+        // 2. Ajouter aux réservations dans localStorage
+        const existingReservations = JSON.parse(localStorage.getItem('reservations') || '[]');
+        const updatedReservations = [...existingReservations, carWithDetails];
+        localStorage.setItem('reservations', JSON.stringify(updatedReservations));
+        
+        // Notifier les autres onglets du changement
+        window.dispatchEvent(new Event('storage'));
+        
         alert(`${car.name} ajouté pour ${duration} jour(s) (${totalPrice}€)`);
         navigate("/cart");
     };

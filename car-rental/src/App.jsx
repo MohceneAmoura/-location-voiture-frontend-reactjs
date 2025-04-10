@@ -11,6 +11,7 @@ import Cart from "./pages/Cart/Cart";
 import Payement from "./pages/Payement/Payement"; // Import the Payement component
 import AddCar from "./pages/AddCar/AddCar"; // Ajout de la page d'ajout de voiture
 import AdminApproval from './pages/AdminApproval/AdminApproval';
+import Reservation from './pages/Reservation/Reservation'; // Importez le composant Reservation
 
 const App = () => {
   return (
@@ -26,6 +27,7 @@ const App = () => {
           <Route path="/cart" element={<Cart />} />
           <Route path="/payement" element={<Payement />} /> {/* Add the Payement route */}          
           <Route path="/add-car" element={<AddCar />} />
+          <Route path="/reservation" element={<Reservation />} /> {/* Ajoutez cette ligne */}
           <Route path="/admin/approval" element={<AdminApproval />} />          
         </Routes>
       </CartProvider>
