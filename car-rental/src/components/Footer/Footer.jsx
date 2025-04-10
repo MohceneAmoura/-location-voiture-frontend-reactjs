@@ -14,9 +14,9 @@ const Footer = () => {
         <div className="footer-grid">
           {/* Colonne Logo & Description */}
           <div className="footer-column">
-            <h1 className="footer-logo-text">AutoLibre 🚗✨</h1> {/* New text-based logo */}
+            <h1 className="footer-logo-text">AutoLibre 🚗</h1> {/* New text-based logo */}
             <p className="footer-description">
-              AutoLibre 🚗✨ - Votre partenaire de confiance pour la location de véhicules. 
+              AutoLibre 🚗 - Votre partenaire de confiance pour la location de véhicules. 
               Large choix de voitures à des tarifs compétitifs avec assistance 24/7.
             </p>
             <div className="trust-badges">
