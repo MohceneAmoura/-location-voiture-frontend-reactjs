@@ -7,14 +7,62 @@ const CarList = ({ cars, title = "Véhicules disponibles" }) => {
   const [allCars, setAllCars] = useState([]);
   const [openDescriptions, setOpenDescriptions] = useState({});
 
-  // Charger les voitures approuvées depuis localStorage
+  // Fonction pour générer un ID unique
+  const generateUniqueId = (car, index, source) => {
+    // Si la voiture a déjà un ID, on l'utilise en ajoutant la source
+    if (car.id) return `${car.id}-${source}`;
+
+    // Sinon, on génère un ID unique basé sur plusieurs facteurs
+    return `car-${source}-${index}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+  };
+
   useEffect(() => {
     const approvedCars = JSON.parse(localStorage.getItem("carList")) || [];
-    setAllCars([...cars, ...approvedCars]);
+
+    // Préparer les voitures avec des IDs uniques
+    const carsWithUniqueIds = cars.map((car, index) => ({
+      ...car,
+      id: generateUniqueId(car, index, 'props')
+    }));
+
+    const approvedCarsWithUniqueIds = approvedCars.map((car, index) => ({
+      ...car,
+      id: generateUniqueId(car, index, 'localStorage')
+    }));
+
+    // Fusionner les deux tableaux sans créer de doublons dans les IDs
+    const uniqueCars = [...carsWithUniqueIds, ...approvedCarsWithUniqueIds];
+
+    // Vérifier l'unicité des IDs pour éviter les conflits
+    const uniqueCarIds = new Set();
+    const finalCars = uniqueCars.filter((car) => {
+      if (!uniqueCarIds.has(car.id)) {
+        uniqueCarIds.add(car.id);
+        return true;
+      }
+      return false; // Filtrer les doublons
+    });
+
+    setAllCars(finalCars);
 
     const handleCarUpdate = () => {
       const updatedApprovedCars = JSON.parse(localStorage.getItem("carList")) || [];
-      setAllCars([...cars, ...updatedApprovedCars]);
+      const updatedApprovedCarsWithUniqueIds = updatedApprovedCars.map((car, index) => ({
+        ...car,
+        id: generateUniqueId(car, index, 'localStorage-updated')
+      }));
+
+      const updatedUniqueCars = [...carsWithUniqueIds, ...updatedApprovedCarsWithUniqueIds];
+      const updatedUniqueCarIds = new Set();
+      const finalUpdatedCars = updatedUniqueCars.filter((car) => {
+        if (!updatedUniqueCarIds.has(car.id)) {
+          updatedUniqueCarIds.add(car.id);
+          return true;
+        }
+        return false; // Filtrer les doublons
+      });
+
+      setAllCars(finalUpdatedCars);
     };
 
     window.addEventListener("carListUpdated", handleCarUpdate);
@@ -51,11 +99,11 @@ const CarList = ({ cars, title = "Véhicules disponibles" }) => {
 
       <div className="car-grid">
         {allCars.map((car) => (
-          <CarCard 
-            key={car.id} 
-            car={car} 
-            isOpen={!!openDescriptions[car.id]} 
-            toggleDescription={() => toggleDescription(car.id)} 
+          <CarCard
+            key={car.id} // Utilisation de l'ID unique généré
+            car={car}
+            isOpen={!!openDescriptions[car.id]}
+            toggleDescription={() => toggleDescription(car.id)}
           />
         ))}
       </div>

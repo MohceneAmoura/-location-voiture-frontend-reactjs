@@ -6,7 +6,7 @@ import { FaArrowLeft, FaCreditCard, FaLock, FaCheckCircle } from "react-icons/fa
 import "./payement.css";
 
 const Payement = () => {
-  const { cartItems } = useContext(CartContext);
+  const { cartItems, clearCart } = useContext(CartContext);
   const navigate = useNavigate();
   const [paymentStep, setPaymentStep] = useState(1);
   const [formData, setFormData] = useState({
@@ -20,9 +20,10 @@ const Payement = () => {
     country: "",
   });
   const [errors, setErrors] = useState({});
-
-  // Calcul du total
+  
+  // Calcul du total initial
   const total = cartItems.reduce((sum, item) => sum + item.totalPrice, 0);
+  const [finalTotal, setFinalTotal] = useState(total); // Stocker le montant final
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -34,40 +35,33 @@ const Payement = () => {
 
   const validateForm = () => {
     const newErrors = {};
-    
     if (!formData.cardName.trim()) newErrors.cardName = "Nom requis";
-    
     if (!formData.cardNumber.trim()) {
       newErrors.cardNumber = "Numéro de carte requis";
     } else if (!/^\d{16}$/.test(formData.cardNumber.replace(/\s/g, ""))) {
       newErrors.cardNumber = "Numéro de carte invalide";
     }
-    
     if (!formData.cardExpiry.trim()) {
       newErrors.cardExpiry = "Date d'expiration requise";
     } else if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(formData.cardExpiry)) {
       newErrors.cardExpiry = "Format invalide (MM/YY)";
     }
-    
     if (!formData.cardCVV.trim()) {
       newErrors.cardCVV = "CVV requis";
     } else if (!/^\d{3,4}$/.test(formData.cardCVV)) {
       newErrors.cardCVV = "CVV invalide";
     }
-    
     if (paymentStep === 2) {
       if (!formData.billingAddress.trim()) newErrors.billingAddress = "Adresse requise";
       if (!formData.city.trim()) newErrors.city = "Ville requise";
       if (!formData.postalCode.trim()) newErrors.postalCode = "Code postal requis";
       if (!formData.country.trim()) newErrors.country = "Pays requis";
     }
-    
     return newErrors;
   };
 
   const handleContinue = () => {
     const newErrors = validateForm();
-    
     if (Object.keys(newErrors).length === 0) {
       if (paymentStep === 1) {
         setPaymentStep(2);
@@ -80,8 +74,11 @@ const Payement = () => {
   };
 
   const handleConfirmPayment = () => {
+    // Stocker le montant total avant de vider le panier
+    setFinalTotal(total);
     setTimeout(() => {
-      setPaymentStep(4);
+      clearCart(); // Vider le panier
+      setPaymentStep(4); // Passer à l'étape de confirmation
     }, 2000);
   };
 
@@ -90,11 +87,9 @@ const Payement = () => {
     const matches = v.match(/\d{4,16}/g);
     const match = (matches && matches[0]) || "";
     const parts = [];
-
     for (let i = 0, len = match.length; i < len; i += 4) {
       parts.push(match.substring(i, i + 4));
     }
-
     if (parts.length) {
       return parts.join(" ");
     } else {
@@ -105,6 +100,7 @@ const Payement = () => {
   return (
     <div className="payment-page-container">
       <div className="payment-page-wrapper">
+        {/* En-tête */}
         <div className="payment-page-header">
           <h2>
             <FaCreditCard className="payment-page-header-icon" /> Paiement
@@ -119,10 +115,10 @@ const Payement = () => {
           <div className={`payment-step ${paymentStep >= 3 ? "active" : ""}`}>3. Confirmation</div>
         </div>
 
+        {/* Étape 1 : Informations de carte */}
         {paymentStep === 1 && (
           <div className="payment-form-container">
             <h3><FaCreditCard /> Informations de carte</h3>
-            
             <div className="payment-form-group">
               <label htmlFor="cardName">Nom sur la carte</label>
               <input
@@ -135,7 +131,6 @@ const Payement = () => {
               />
               {errors.cardName && <span className="payment-error-message">{errors.cardName}</span>}
             </div>
-            
             <div className="payment-form-group">
               <label htmlFor="cardNumber">Numéro de carte</label>
               <input
@@ -153,24 +148,42 @@ const Payement = () => {
               />
               {errors.cardNumber && <span className="payment-error-message">{errors.cardNumber}</span>}
             </div>
-            
             <div className="payment-form-row">
-              <div className="payment-form-group half-width">
-                <label htmlFor="cardExpiry">Date d'expiration</label>
-                <input
-                  type="text"
-                  id="cardExpiry"
-                  name="cardExpiry"
-                  value={formData.cardExpiry}
-                  onChange={handleInputChange}
-                  placeholder="MM/YY"
-                  maxLength="5"
-                  className={errors.cardExpiry ? "error" : ""}
-                />
-                {errors.cardExpiry && <span className="payment-error-message">{errors.cardExpiry}</span>}
-              </div>
-              
-              <div className="payment-form-group half-width">
+            <div className="payment-form-row">
+  <div className="payment-form-group half-width">
+    <label htmlFor="cardExpiry">Date d'expiration</label>
+    <input
+      type="text"
+      id="cardExpiry"
+      name="cardExpiry"
+      value={formData.cardExpiry}
+      onChange={(e) => {
+        // Appliquer un masque de saisie pour le format MM/YY
+        const rawValue = e.target.value.replace(/\D/g, ""); // Supprimer les caractères non numériques
+        let formattedValue = "";
+
+        if (rawValue.length > 0) {
+          formattedValue = rawValue.slice(0, 2); // Ajouter les deux premiers chiffres (mois)
+        }
+        if (rawValue.length > 2) {
+          formattedValue += "/" + rawValue.slice(2, 4); // Ajouter le slash et les deux chiffres suivants (année)
+        }
+
+        // Mettre à jour la valeur du champ avec le format MM/YY
+        setFormData({
+          ...formData,
+          cardExpiry: formattedValue,
+        });
+      }}
+      placeholder="MM/YY"
+      maxLength="5" // Limiter à 5 caractères (MM/YY)
+      className={errors.cardExpiry ? "error" : ""}
+    />
+    {errors.cardExpiry && (
+      <span className="payment-error-message">{errors.cardExpiry}</span>
+    )}
+  </div>
+</div>              <div className="payment-form-group half-width">
                 <label htmlFor="cardCVV">CVV</label>
                 <input
                   type="text"
@@ -185,7 +198,6 @@ const Payement = () => {
                 {errors.cardCVV && <span className="payment-error-message">{errors.cardCVV}</span>}
               </div>
             </div>
-            
             <div className="payment-actions-container">
               <Link to="/cart" className="payment-back-button">
                 <FaArrowLeft /> Retour au panier
@@ -197,10 +209,10 @@ const Payement = () => {
           </div>
         )}
 
+        {/* Étape 2 : Adresse de facturation */}
         {paymentStep === 2 && (
           <div className="payment-form-container">
             <h3>Adresse de facturation</h3>
-            
             <div className="payment-form-group">
               <label htmlFor="billingAddress">Adresse</label>
               <input
@@ -213,7 +225,6 @@ const Payement = () => {
               />
               {errors.billingAddress && <span className="payment-error-message">{errors.billingAddress}</span>}
             </div>
-            
             <div className="payment-form-row">
               <div className="payment-form-group half-width">
                 <label htmlFor="city">Ville</label>
@@ -227,7 +238,6 @@ const Payement = () => {
                 />
                 {errors.city && <span className="payment-error-message">{errors.city}</span>}
               </div>
-              
               <div className="payment-form-group half-width">
                 <label htmlFor="postalCode">Code postal</label>
                 <input
@@ -241,7 +251,6 @@ const Payement = () => {
                 {errors.postalCode && <span className="payment-error-message">{errors.postalCode}</span>}
               </div>
             </div>
-            
             <div className="payment-form-group">
               <label htmlFor="country">Pays</label>
               <select
@@ -261,7 +270,6 @@ const Payement = () => {
               </select>
               {errors.country && <span className="payment-error-message">{errors.country}</span>}
             </div>
-            
             <div className="payment-actions-container">
               <button className="payment-back-button" onClick={() => setPaymentStep(1)}>
                 <FaArrowLeft /> Retour
@@ -273,10 +281,10 @@ const Payement = () => {
           </div>
         )}
 
+        {/* Étape 3 : Confirmation */}
         {paymentStep === 3 && (
           <div className="payment-confirmation-section">
             <h3>Vérification de la commande</h3>
-            
             <div className="payment-confirmation-details">
               <div className="payment-confirmation-block">
                 <h4>Véhicules réservés</h4>
@@ -292,7 +300,6 @@ const Payement = () => {
                   ))}
                 </ul>
               </div>
-              
               <div className="payment-confirmation-block">
                 <h4>Informations de paiement</h4>
                 <div className="payment-info-row">
@@ -304,20 +311,17 @@ const Payement = () => {
                   <span>{formData.cardName}</span>
                 </div>
               </div>
-              
               <div className="payment-confirmation-block">
                 <h4>Adresse de facturation</h4>
                 <p>{formData.billingAddress}</p>
                 <p>{formData.postalCode}, {formData.city}</p>
                 <p>{formData.country}</p>
               </div>
-              
               <div className="payment-confirmation-total">
                 <span>Total à payer:</span>
                 <span className="payment-total-price">{total} DZG</span>
               </div>
             </div>
-            
             <div className="payment-actions-container">
               <button className="payment-back-button" onClick={() => setPaymentStep(2)}>
                 <FaArrowLeft /> Modifier
@@ -329,6 +333,7 @@ const Payement = () => {
           </div>
         )}
 
+        {/* Étape 4 : Succès du paiement */}
         {paymentStep === 4 && (
           <div className="payment-success-container">
             <div className="payment-success-icon">
@@ -343,15 +348,19 @@ const Payement = () => {
               </div>
               <div className="payment-success-info">
                 <span>Montant payé:</span>
-                <span>{total} DZG</span>
+                <span>{finalTotal} DZG</span> {/* Utiliser finalTotal ici */}
               </div>
             </div>
-            <Link to="/" className="payment-home-button">
+            <Link 
+              to="/" 
+              className="payment-home-button"
+            >
               Retour à l'accueil
             </Link>
           </div>
         )}
 
+        {/* Notice de sécurité */}
         <div className="payment-security-notice">
           <FaLock /> Paiement sécurisé | Toutes vos données sont protégées
         </div>

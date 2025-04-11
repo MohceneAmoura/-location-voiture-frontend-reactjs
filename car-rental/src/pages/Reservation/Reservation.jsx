@@ -106,15 +106,16 @@ const Reservation = () => {
   };
 
   const deleteReservation = (id) => {
-    if (window.confirm(`Confirmer la suppression de la réservation #${id.slice(-6)} ?`)) {
+    const shortId = id ? String(id).slice(-6) : 'N/A';
+    if (window.confirm(`Confirmer la suppression de la réservation #${shortId} ?`)) {
       setReservations(prevReservations => {
         const updatedList = prevReservations.filter(res => res.id !== id);
-         try {
-            localStorage.setItem('reservations', JSON.stringify(updatedList));
-            window.dispatchEvent(new StorageEvent('storage', { key: 'reservations' }));
-         } catch (error) {
-             console.error("Erreur sauvegarde suppression:", error);
-         }
+        try {
+          localStorage.setItem('reservations', JSON.stringify(updatedList));
+          window.dispatchEvent(new StorageEvent('storage', { key: 'reservations' }));
+        } catch (error) {
+          console.error("Erreur sauvegarde suppression:", error);
+        }
         return updatedList;
       });
     }
@@ -232,7 +233,7 @@ const Reservation = () => {
               {filteredReservations.map((reservation) => (
                 <div key={reservation.id} className={`reservation-card status-${reservation.status}`}>
                   <div className="reservation-header">
-                    <h3>Réservation #{reservation.id ? reservation.id.slice(-6) : 'N/A'}</h3>
+                  <h3>Réservation #{reservation.id ? String(reservation.id).slice(-6) : 'N/A'}</h3>
                     {getStatusBadge(reservation.status)}
                   </div>
 
